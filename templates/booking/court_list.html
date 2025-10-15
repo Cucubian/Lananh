@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách sân{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">
+        <i class="fas fa-table-tennis text-blue-600 mr-2"></i> Danh sách sân cầu lông
+    </h2>
+    <p class="text-gray-600">Chọn sân yêu thích và đặt ngay!</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for court in courts %}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition">
+        {% if court.image %}
+        <img src="{{ court.image.url }}" alt="{{ court.name }}" class="w-full h-48 object-cover">
+        {% else %}
+        <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center">
+            <i class="fas fa-table-tennis text-white text-6xl"></i>
+        </div>
+        {% endif %}
+        
+        <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ court.name }}</h3>
+            <p class="text-gray-600 mb-4">{{ court.description|truncatewords:20 }}</p>
+            
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-2xl font-bold text-blue-600">
+                    {{ court.price_per_hour|floatformat:0 }}₫
+                    <span class="text-sm text-gray-600">/giờ</span>
+                </span>
+                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fas fa-check-circle mr-1"></i> Còn trống
+                </span>
+            </div>
+            
+            <a href="{% url 'booking:booking_create_court' court.id %}" class="block w-full bg-gradient-to-r from-blue-600 to-green-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
+                <i class="fas fa-calendar-check mr-2"></i> Đặt sân
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-3 text-center py-12">
+        <i class="fas fa-inbox text-gray-400 text-6xl mb-4"></i>
+        <p class="text-gray-600 text-xl">Chưa có sân nào</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

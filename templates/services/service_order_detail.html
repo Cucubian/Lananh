@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Chi tiết đơn dịch vụ{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-6">
+            <h2 class="text-3xl font-bold text-white">
+                <i class="fas fa-shopping-bag mr-2"></i> Đơn hàng #{{ order.pk }}
+            </h2>
+            <p class="text-purple-100 mt-2">Tạo ngày: {{ order.created_at|date:"d/m/Y H:i" }}</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-8">
+            <!-- Status -->
+            <div class="mb-6">
+                <span class="px-6 py-3 rounded-full text-lg font-semibold inline-block
+                    {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800
+                    {% elif order.status == 'processing' %}bg-blue-100 text-blue-800
+                    {% elif order.status == 'completed' %}bg-green-100 text-green-800
+                    {% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ order.get_status_display }}
+                </span>
+            </div>
+            
+            <!-- Items -->
+            <div class="mb-8">
+                <h3 class="font-semibold text-gray-800 mb-4 text-lg">
+                    <i class="fas fa-list text-purple-600 mr-2"></i> Chi tiết sản phẩm
+                </h3>
+                <div class="space-y-3">
+                    {% for item in order.items.all %}
+                    <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4">
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-gray-800">{{ item.service.name }}</h4>
+                            <p class="text-gray-600 text-sm">{{ item.price|floatformat:0 }}₫ x {{ item.quantity }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-purple-600">{{ item.subtotal|floatformat:0 }}₫</p>
+                            {% if order.status == 'pending' %}
+                            <a href="{% url 'services:service_order_remove_item' order.pk item.pk %}" class="text-red-600 text-sm hover:underline">
+                                <i class="fas fa-trash mr-1"></i> Xóa
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-gray-600 text-center py-4">Chưa có sản phẩm nào</p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Total -->
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-8 border border-purple-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-800 text-lg">
+                        <i class="fas fa-calculator text-purple-600 mr-2"></i> Tổng tiền
+                    </h3>
+                    <p class="text-3xl font-bold text-purple-600">{{ order.total_price|floatformat:0 }}₫</p>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4">
+                {% if order.status == 'pending' or order.status == 'processing' %}
+                <a href="{% url 'services:service_order_add_item' order.pk %}" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition shadow-lg">
+                    <i class="fas fa-plus mr-2"></i> Thêm sản phẩm
+                </a>
+                {% endif %}
+                
+                <a href="{% url 'services:service_order_list' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

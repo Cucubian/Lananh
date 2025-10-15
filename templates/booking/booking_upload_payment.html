@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload minh chứng thanh toán{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-upload text-blue-600 mr-2"></i> Upload minh chứng thanh toán
+        </h2>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+            <h3 class="font-semibold text-blue-900 mb-4">Thông tin đơn đặt</h3>
+            <div class="space-y-2 text-blue-800">
+                <p><strong>Sân:</strong> {{ booking.court.name }}</p>
+                <p><strong>Ngày:</strong> {{ booking.date|date:"d/m/Y" }}</p>
+                <p><strong>Số giờ:</strong> {{ booking.total_hours }}</p>
+                <p class="text-xl font-bold text-blue-600">
+                    <strong>Tổng tiền:</strong> {{ booking.total_price|floatformat:0 }}₫
+                </p>
+            </div>
+        </div>
+        
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <h4 class="font-semibold text-yellow-900 mb-2">
+                <i class="fas fa-info-circle mr-2"></i> Hướng dẫn thanh toán
+            </h4>
+            <ul class="text-sm text-yellow-800 space-y-1">
+                <li>• Chuyển khoản: 0123456789 - Ngân hàng ABC</li>
+                <li>• Nội dung: DatSan{{ booking.pk }}</li>
+                <li>• Chụp ảnh màn hình giao dịch và upload lên</li>
+            </ul>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Minh chứng thanh toán <span class="text-red-500">*</span>
+                </label>
+                {{ form.payment_proof }}
+                {% if form.payment_proof.errors %}
+                    {% for error in form.payment_proof.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                <p class="text-gray-500 text-sm mt-1">Chấp nhận: JPG, PNG, GIF (tối đa 5MB)</p>
+            </div>
+            
+            <div class="flex gap-4 pt-4">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition shadow-lg">
+                    <i class="fas fa-check mr-2"></i> Upload
+                </button>
+                <a href="{% url 'booking:booking_detail' booking.pk %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-times mr-2"></i> Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

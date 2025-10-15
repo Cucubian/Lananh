@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Đặt sân{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-calendar-check text-blue-600 mr-2"></i> Đặt sân cầu lông
+        </h2>
+        
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Chọn sân <span class="text-red-500">*</span>
+                </label>
+                {{ form.court }}
+                {% if form.court.errors %}
+                    {% for error in form.court.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Ngày đặt <span class="text-red-500">*</span>
+                </label>
+                {{ form.date }}
+                {% if form.date.errors %}
+                    {% for error in form.date.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Khung giờ <span class="text-red-500">*</span>
+                </label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {% for choice in form.time_slots %}
+                    <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200 hover:border-blue-500 transition">
+                        {{ choice.tag }}
+                        <span class="ml-2 text-sm">{{ choice.choice_label }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% if form.time_slots.errors %}
+                    {% for error in form.time_slots.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Ghi chú
+                </label>
+                {{ form.notes }}
+                {% if form.notes.errors %}
+                    {% for error in form.notes.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 class="font-semibold text-blue-900 mb-2">
+                    <i class="fas fa-info-circle mr-2"></i> Lưu ý
+                </h4>
+                <ul class="text-sm text-blue-800 space-y-1">
+                    <li>• Vui lòng thanh toán và upload minh chứng sau khi đặt sân</li>
+                    <li>• Đơn đặt sẽ được xác nhận sau khi kiểm tra thanh toán</li>
+                    <li>• Có thể hủy đơn trước 24h khi chơi</li>
+                </ul>
+            </div>
+            
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
+                    <i class="fas fa-check mr-2"></i> Đặt sân
+                </button>
+                <a href="{% url 'booking:court_list' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-times mr-2"></i> Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

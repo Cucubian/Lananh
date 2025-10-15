@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Hủy đơn đặt sân{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+        <div class="text-center mb-6">
+            <i class="fas fa-exclamation-triangle text-6xl text-red-600 mb-4"></i>
+            <h2 class="text-3xl font-bold text-gray-800">Xác nhận hủy đơn đặt sân</h2>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+            <h3 class="font-semibold text-gray-800 mb-4">Thông tin đơn đặt</h3>
+            <div class="space-y-2 text-gray-700">
+                <p><strong>Sân:</strong> {{ booking.court.name }}</p>
+                <p><strong>Ngày:</strong> {{ booking.date|date:"d/m/Y" }}</p>
+                <p><strong>Tổng tiền:</strong> {{ booking.total_price|floatformat:0 }}₫</p>
+            </div>
+        </div>
+        
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p class="text-red-800">
+                <i class="fas fa-info-circle mr-2"></i>
+                Bạn có chắc chắn muốn hủy đơn đặt sân này? Hành động này không thể hoàn tác.
+            </p>
+        </div>
+        
+        <form method="post" class="flex gap-4">
+            {% csrf_token %}
+            <button type="submit" class="flex-1 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-lg">
+                <i class="fas fa-times mr-2"></i> Xác nhận hủy
+            </button>
+            <a href="{% url 'booking:booking_detail' booking.pk %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Quay lại
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Quản lý dịch vụ{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+        <i class="fas fa-concierge-bell text-blue-600 mr-2"></i> Quản lý dịch vụ
+    </h2>
+    
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2">
+        <a href="{% url 'management:service_management' %}" class="px-4 py-2 rounded-lg {% if not request.GET.category %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            Tất cả
+        </a>
+        <a href="?category=drink" class="px-4 py-2 rounded-lg {% if request.GET.category == 'drink' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            Nước uống
+        </a>
+        <a href="?category=equipment" class="px-4 py-2 rounded-lg {% if request.GET.category == 'equipment' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            Thiết bị
+        </a>
+        <a href="?category=other" class="px-4 py-2 rounded-lg {% if request.GET.category == 'other' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            Khác
+        </a>
+    </div>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gradient-to-r from-blue-600 to-green-600 text-white">
+                <tr>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">ID</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">Tên dịch vụ</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">Loại</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">Giá</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">Tồn kho</th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for service in services %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">#{{ service.pk }}</td>
+                    <td class="px-4 py-3 font-semibold">{{ service.name }}</td>
+                    <td class="px-4 py-3">{{ service.get_category_display }}</td>
+                    <td class="px-4 py-3">{{ service.price|floatformat:0 }}₫</td>
+                    <td class="px-4 py-3">{{ service.stock }}</td>
+                    <td class="px-4 py-3">
+                        {% if service.is_available %}
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                            Còn hàng
+                        </span>
+                        {% else %}
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                            Hết hàng
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-4 py-8 text-center text-gray-600">
+                        Chưa có dịch vụ nào
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

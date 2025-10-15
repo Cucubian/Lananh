@@ -1,0 +1,3 @@
+@echo off
+echo Starting BadmintonCourt server...
+python manage.py runserver

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Chi tiết đơn đặt sân{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-green-600 px-8 py-6">
+            <h2 class="text-3xl font-bold text-white">
+                <i class="fas fa-file-alt mr-2"></i> Chi tiết đơn đặt sân #{{ booking.pk }}
+            </h2>
+            <p class="text-blue-100 mt-2">Tạo ngày: {{ booking.created_at|date:"d/m/Y H:i" }}</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-8">
+            <!-- Status -->
+            <div class="mb-6">
+                <span class="px-6 py-3 rounded-full text-lg font-semibold inline-block
+                    {% if booking.status == 'pending' %}bg-yellow-100 text-yellow-800
+                    {% elif booking.status == 'confirmed' %}bg-green-100 text-green-800
+                    {% elif booking.status == 'completed' %}bg-blue-100 text-blue-800
+                    {% else %}bg-red-100 text-red-800{% endif %}">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    {{ booking.get_status_display }}
+                </span>
+            </div>
+            
+            <!-- Booking Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 text-lg">
+                        <i class="fas fa-table-tennis text-blue-600 mr-2"></i> Thông tin sân
+                    </h3>
+                    <div class="space-y-2 text-gray-700">
+                        <p><strong>Sân:</strong> {{ booking.court.name }}</p>
+                        <p><strong>Ngày:</strong> {{ booking.date|date:"d/m/Y" }}</p>
+                        <p><strong>Số giờ:</strong> {{ booking.total_hours }} giờ</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-3 text-lg">
+                        <i class="fas fa-clock text-blue-600 mr-2"></i> Khung giờ
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for slot in booking.time_slots.all %}
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                            {{ slot.get_time_display }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Info -->
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 mb-8 border border-green-200">
+                <h3 class="font-semibold text-gray-800 mb-4 text-lg">
+                    <i class="fas fa-money-bill-wave text-green-600 mr-2"></i> Thông tin thanh toán
+                </h3>
+                <div class="space-y-2 text-gray-700">
+                    <p><strong>Giá mỗi giờ:</strong> {{ booking.court.price_per_hour|floatformat:0 }}₫</p>
+                    <p><strong>Số giờ:</strong> {{ booking.total_hours }}</p>
+                    <p class="text-2xl font-bold text-green-600">
+                        <strong>Tổng tiền:</strong> {{ booking.total_price|floatformat:0 }}₫
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Payment Proof -->
+            {% if booking.payment_proof %}
+            <div class="mb-8">
+                <h3 class="font-semibold text-gray-800 mb-3 text-lg">
+                    <i class="fas fa-receipt text-blue-600 mr-2"></i> Minh chứng thanh toán
+                </h3>
+                <img src="{{ booking.payment_proof.url }}" alt="Minh chứng thanh toán" class="max-w-md rounded-lg shadow-lg border border-gray-200">
+            </div>
+            {% else %}
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+                <p class="text-yellow-800">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Chưa upload minh chứng thanh toán
+                </p>
+            </div>
+            {% endif %}
+            
+            <!-- Notes -->
+            {% if booking.notes %}
+            <div class="mb-8">
+                <h3 class="font-semibold text-gray-800 mb-3 text-lg">
+                    <i class="fas fa-sticky-note text-blue-600 mr-2"></i> Ghi chú
+                </h3>
+                <p class="text-gray-700 bg-gray-50 rounded-lg p-4">{{ booking.notes }}</p>
+            </div>
+            {% endif %}
+            
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4">
+                {% if booking.status == 'pending' and not booking.payment_proof %}
+                <a href="{% url 'booking:booking_upload_payment' booking.pk %}" class="bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition shadow-lg">
+                    <i class="fas fa-upload mr-2"></i> Upload minh chứng thanh toán
+                </a>
+                {% endif %}
+                
+                {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                <a href="{% url 'booking:booking_cancel' booking.pk %}" class="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-lg">
+                    <i class="fas fa-times mr-2"></i> Hủy đơn
+                </a>
+                {% endif %}
+                
+                <a href="{% url 'booking:booking_list' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

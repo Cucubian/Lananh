@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Dịch vụ{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+        <i class="fas fa-shopping-cart text-blue-600 mr-2"></i> Dịch vụ bổ sung
+    </h2>
+    
+    <!-- Category Filters -->
+    <div class="flex flex-wrap gap-2">
+        <a href="{% url 'services:service_list' %}" class="px-4 py-2 rounded-lg {% if not request.GET.category %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            Tất cả
+        </a>
+        <a href="?category=drink" class="px-4 py-2 rounded-lg {% if request.GET.category == 'drink' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            <i class="fas fa-glass-water mr-1"></i> Nước uống
+        </a>
+        <a href="?category=equipment" class="px-4 py-2 rounded-lg {% if request.GET.category == 'equipment' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            <i class="fas fa-baseball mr-1"></i> Thiết bị
+        </a>
+        <a href="?category=other" class="px-4 py-2 rounded-lg {% if request.GET.category == 'other' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+            <i class="fas fa-ellipsis-h mr-1"></i> Khác
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    {% for service in services %}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition">
+        {% if service.image %}
+        <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-40 object-cover">
+        {% else %}
+        <div class="w-full h-40 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+            <i class="fas {% if service.category == 'drink' %}fa-glass-water{% elif service.category == 'equipment' %}fa-baseball{% else %}fa-box{% endif %} text-white text-5xl"></i>
+        </div>
+        {% endif %}
+        
+        <div class="p-4">
+            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold mb-2">
+                {{ service.get_category_display }}
+            </span>
+            <h3 class="text-lg font-bold text-gray-800 mb-2">{{ service.name }}</h3>
+            <p class="text-gray-600 text-sm mb-3">{{ service.description|truncatewords:10 }}</p>
+            
+            <div class="flex items-center justify-between">
+                <span class="text-xl font-bold text-blue-600">
+                    {{ service.price|floatformat:0 }}₫
+                </span>
+                {% if service.is_available %}
+                <span class="text-green-600 text-sm">
+                    <i class="fas fa-check-circle mr-1"></i> Còn hàng
+                </span>
+                {% else %}
+                <span class="text-red-600 text-sm">
+                    <i class="fas fa-times-circle mr-1"></i> Hết hàng
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-4 text-center py-12">
+        <i class="fas fa-inbox text-gray-400 text-6xl mb-4"></i>
+        <p class="text-gray-600 text-xl">Chưa có dịch vụ nào</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+<div class="text-center">
+    <a href="{% url 'services:service_order_create' %}" class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition shadow-lg">
+        <i class="fas fa-shopping-cart mr-2"></i> Tạo đơn hàng
+    </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Cập nhật trạng thái{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-edit text-blue-600 mr-2"></i> Cập nhật trạng thái đơn đặt
+        </h2>
+        
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+            <h3 class="font-semibold text-gray-800 mb-4">Thông tin đơn đặt</h3>
+            <div class="space-y-2 text-gray-700">
+                <p><strong>Khách hàng:</strong> {{ booking.customer.full_name }}</p>
+                <p><strong>Sân:</strong> {{ booking.court.name }}</p>
+                <p><strong>Ngày:</strong> {{ booking.date|date:"d/m/Y" }}</p>
+                <p><strong>Tổng tiền:</strong> {{ booking.total_price|floatformat:0 }}₫</p>
+            </div>
+        </div>
+        
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Trạng thái <span class="text-red-500">*</span>
+                </label>
+                <select name="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    {% for value, label in booking.STATUS_CHOICES %}
+                    <option value="{{ value }}" {% if booking.status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="flex gap-4 pt-4">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
+                    <i class="fas fa-save mr-2"></i> Lưu thay đổi
+                </button>
+                <a href="{% url 'management:booking_management' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-times mr-2"></i> Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

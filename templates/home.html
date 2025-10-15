@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang chủ - Quản lý sân cầu lông{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-2xl mb-12">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative px-8 py-16 md:py-24 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-pulse">
+            <i class="fas fa-shuttlecock-badminton mr-4"></i>
+            Chào mừng đến với Badminton
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-blue-100">
+            Đặt sân cầu lông nhanh chóng, tiện lợi và hiện đại
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'booking:court_list' %}" class="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-full text-lg font-semibold shadow-lg transform hover:scale-105 transition">
+                <i class="fas fa-calendar-check mr-2"></i> Đặt sân ngay
+            </a>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'accounts:register' %}" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg transform hover:scale-105 transition">
+                <i class="fas fa-user-plus mr-2"></i> Đăng ký tài khoản
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-blue-500">
+        <div class="text-blue-600 text-5xl mb-4">
+            <i class="fas fa-clock"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800">Đặt sân 24/7</h3>
+        <p class="text-gray-600">Đặt sân mọi lúc, mọi nơi với hệ thống trực tuyến tiện lợi</p>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-green-500">
+        <div class="text-green-600 text-5xl mb-4">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800">Thanh toán an toàn</h3>
+        <p class="text-gray-600">Hệ thống thanh toán bảo mật, minh bạch và đáng tin cậy</p>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-yellow-500">
+        <div class="text-yellow-600 text-5xl mb-4">
+            <i class="fas fa-star"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800">Dịch vụ chất lượng</h3>
+        <p class="text-gray-600">Sân đẹp, thiết bị hiện đại, dịch vụ bổ sung đa dạng</p>
+    </div>
+</div>
+
+<!-- Services -->
+<div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">
+        <i class="fas fa-concierge-bell text-blue-600 mr-2"></i>
+        Dịch vụ của chúng tôi
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+            <i class="fas fa-table-tennis text-4xl text-blue-600 mb-3"></i>
+            <h4 class="font-semibold text-lg">Đặt sân cầu lông</h4>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+            <i class="fas fa-glass-water text-4xl text-green-600 mb-3"></i>
+            <h4 class="font-semibold text-lg">Nước uống</h4>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
+            <i class="fas fa-baseball text-4xl text-yellow-600 mb-3"></i>
+            <h4 class="font-semibold text-lg">Thuê thiết bị</h4>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
+            <i class="fas fa-users text-4xl text-purple-600 mb-3"></i>
+            <h4 class="font-semibold text-lg">Hỗ trợ 24/7</h4>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics -->
+<div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-8 text-white">
+    <h2 class="text-3xl font-bold mb-8 text-center">
+        <i class="fas fa-chart-bar mr-2"></i>
+        Thống kê
+    </h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+            <div class="text-4xl font-bold mb-2">500+</div>
+            <div class="text-purple-200">Khách hàng</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold mb-2">10+</div>
+            <div class="text-purple-200">Sân cầu lông</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold mb-2">1000+</div>
+            <div class="text-purple-200">Đơn đặt sân</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold mb-2">5★</div>
+            <div class="text-purple-200">Đánh giá</div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+{% if not user.is_authenticated %}
+<div class="text-center mt-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl shadow-lg p-12 text-white">
+    <h2 class="text-3xl font-bold mb-4">Bắt đầu ngay hôm nay!</h2>
+    <p class="text-xl mb-8">Đăng ký tài khoản để trải nghiệm dịch vụ đặt sân tuyệt vời</p>
+    <a href="{% url 'accounts:register' %}" class="bg-white text-orange-600 hover:bg-orange-50 px-10 py-4 rounded-full text-lg font-semibold shadow-lg inline-block transform hover:scale-105 transition">
+        <i class="fas fa-rocket mr-2"></i> Đăng ký miễn phí
+    </a>
+</div>
+{% endif %}
+{% endblock %}
