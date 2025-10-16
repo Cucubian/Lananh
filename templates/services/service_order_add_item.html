@@ -3,11 +3,12 @@
 {% block title %}Thêm sản phẩm vào đơn{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl p-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
-            <i class="fas fa-plus text-purple-600 mr-2"></i> Thêm sản phẩm
-        </h2>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-plus text-green-600 mr-2"></i> Thêm sản phẩm
+            </h2>
         
         <form method="post" class="space-y-4">
             {% csrf_token %}
@@ -27,7 +28,7 @@
             {% endfor %}
             
             <div class="flex gap-4 pt-4">
-                <button type="submit" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition shadow-lg">
+                <button type="submit" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-lg">
                     <i class="fas fa-check mr-2"></i> Thêm vào đơn
                 </button>
                 <a href="{% url 'services:service_order_detail' order.pk %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
@@ -35,6 +36,7 @@
                 </a>
             </div>
         </form>
+        </div>
     </div>
 </div>
 {% endblock %}

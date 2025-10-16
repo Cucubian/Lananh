@@ -1,119 +1,423 @@
 {% extends 'base.html' %}
 
-{% block title %}Trang chủ - Quản lý sân cầu lông{% endblock %}
+{% block title %}Trang chủ - CourtMaster{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-2xl mb-12">
-    <div class="absolute inset-0 bg-black/10"></div>
-    <div class="relative px-8 py-16 md:py-24 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-pulse">
-            <i class="fas fa-shuttlecock-badminton mr-4"></i>
-            Chào mừng đến với Badminton
-        </h1>
-        <p class="text-xl md:text-2xl mb-8 text-blue-100">
-            Đặt sân cầu lông nhanh chóng, tiện lợi và hiện đại
-        </p>
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Column - Hero Content -->
+            <div class="space-y-8">
+                <!-- Badge -->
+                <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Hệ thống đặt sân #1 Việt Nam
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                    Đặt sân cầu lông <span class="text-green-500">dễ dàng</span> chỉ trong 30 giây
+                </h1>
+
+                <!-- Description -->
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Hệ thống quản lý và đặt sân cầu lông thông minh. Theo dõi lịch sân theo thời gian thực, thanh toán nhanh chóng và nhận ưu đãi hấp dẫn.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{% url 'booking:court_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Xem lịch sân
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition">
+                        Tìm hiểu thêm
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Statistics -->
+                <div class="grid grid-cols-3 gap-8 pt-8">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gray-900">12+</div>
+                        <div class="text-sm text-gray-600">Sân cầu lông</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gray-900">5,000+</div>
+                        <div class="text-sm text-gray-600">Lượt đặt sân</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gray-900">4.9★</div>
+                        <div class="text-sm text-gray-600">Đánh giá</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Booking Widget -->
+            <div class="relative">
+                <div class="bg-white rounded-2xl shadow-xl p-8 relative">
+                    <!-- Discount Badge -->
+                    <div class="absolute -top-3 -right-3 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        Giảm 20% hôm nay!
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Đặt sân nhanh</h3>
+                            <p class="text-gray-600">Chọn thời gian và sân phù hợp với bạn</p>
+                        </div>
+
+                        <!-- Form Fields -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn ngày</label>
+                                <div class="relative">
+                                    <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" value="2025-01-15">
+                                    <i class="fas fa-calendar absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Giờ bắt đầu</label>
+                                <div class="relative">
+                                    <i class="fas fa-clock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <input type="time" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" value="06:00">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Thời lượng</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                    <option>1 giờ</option>
+                                    <option>2 giờ</option>
+                                    <option>3 giờ</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn sân</label>
+                                <div class="relative">
+                                    <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <select class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                        <option>Sân 1 - VIP</option>
+                                        <option>Sân 2 - Thường</option>
+                                        <option>Sân 3 - Thường</option>
+                                        <option>Sân 4 - VIP</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 rounded-lg transition">
+                            Xác nhận đặt sân
+                        </button>
+
+                        <!-- Cancellation Policy -->
+                        <p class="text-sm text-gray-500 text-center">
+                            Miễn phí hủy trong vòng 2 giờ trước giờ chơi
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                Tính năng nổi bật
+            </div>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Tại sao chọn CourtMaster?</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Trải nghiệm đặt sân hiện đại với đầy đủ tiện ích và dịch vụ chuyên nghiệp
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-clock text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Đặt sân 24/7</h3>
+                <p class="text-gray-600">Đặt sân mọi lúc mọi nơi qua ứng dụng di động hoặc website. Xác nhận tức thì.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-map-marker-alt text-orange-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Vị trí thuận lợi</h3>
+                <p class="text-gray-600">Hệ thống sân cầu lông tại các vị trí trung tâm, dễ dàng di chuyển.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-users text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Cộng đồng sôi động</h3>
+                <p class="text-gray-600">Kết nối với hàng nghìn người chơi cầu lông, tham gia giải đấu và sự kiện.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-chart-line text-orange-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Giá cả hợp lý</h3>
+                <p class="text-gray-600">Bảng giá minh bạch, nhiều gói ưu đãi cho khách hàng thân thiết.</p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-star text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Chất lượng cao</h3>
+                <p class="text-gray-600">Sân chuẩn thi đấu, ánh sáng tốt, trang thiết bị hiện đại và phòng thay đồ sạch sẽ.</p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-check-circle text-orange-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Hỗ trợ tận tâm</h3>
+                <p class="text-gray-600">Đội ngũ nhân viên chuyên nghiệp, nhiệt tình hỗ trợ 24/7 qua hotline và chat.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Court Status Section -->
+<div class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="flex justify-between items-center mb-12">
+            <div>
+                <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                    Lịch sân hôm nay
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-2">Sân phổ biến nhất</h2>
+                <p class="text-lg text-gray-600">Cập nhật theo thời gian thực</p>
+            </div>
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center px-6 py-3 bg-white border border-gray-300 hover:border-green-500 text-gray-700 hover:text-green-600 font-semibold rounded-lg transition">
+                Xem tất cả
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+        <!-- Court Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Court 1 -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+                <!-- Court Image -->
+                <div class="relative h-56 bg-gradient-to-br from-green-500 to-green-600">
+                    <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Sân 1 - VIP" class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-green-500 text-white rounded-full text-sm font-semibold">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Còn trống
+                        </span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-white bg-opacity-90 text-gray-800 rounded-full text-sm font-semibold">
+                            VIP
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Court Content -->
+                <div class="p-8">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-map-marker-alt text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Sân Hà Đông</h3>
+                            <p class="text-sm text-gray-600">Hà Đông</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Features -->
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-clock mr-2 text-gray-400"></i>
+                            <span>Mở cửa 24/7</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-wifi mr-2 text-gray-400"></i>
+                            <span>WiFi miễn phí</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-car mr-2 text-gray-400"></i>
+                            <span>Bãi đỗ xe</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Price and Action -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900">200.000₫</div>
+                            <div class="text-sm text-gray-600">/ giờ</div>
+                        </div>
+                        <a href="{% url 'booking:court_list' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                            <i class="fas fa-calendar-check mr-1"></i>
+                            Đặt sân
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Court 2 -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+                <!-- Court Image -->
+                <div class="relative h-56 bg-gradient-to-br from-blue-500 to-blue-600">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Sân 2 - Thường" class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-red-500 text-white rounded-full text-sm font-semibold">
+                            <i class="fas fa-times-circle mr-1"></i>
+                            Đã đặt
+                        </span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-white bg-opacity-90 text-gray-800 rounded-full text-sm font-semibold">
+                            Thường
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Court Content -->
+                <div class="p-8">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-map-marker-alt text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Sân Sơn Tây</h3>
+                            <p class="text-sm text-gray-600">Sơn Tây</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Features -->
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-clock mr-2 text-gray-400"></i>
+                            <span>Mở cửa 24/7</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-wifi mr-2 text-gray-400"></i>
+                            <span>WiFi miễn phí</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-car mr-2 text-gray-400"></i>
+                            <span>Bãi đỗ xe</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Price and Action -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900">150.000₫</div>
+                            <div class="text-sm text-gray-600">/ giờ</div>
+                        </div>
+                        <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg font-semibold cursor-not-allowed">
+                            <i class="fas fa-times mr-1"></i>
+                            Đã đặt
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Court 3 -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+                <!-- Court Image -->
+                <div class="relative h-56 bg-gradient-to-br from-purple-500 to-purple-600">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Sân Olympic - VIP" class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-green-500 text-white rounded-full text-sm font-semibold">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Còn trống
+                        </span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-white bg-opacity-90 text-gray-800 rounded-full text-sm font-semibold">
+                            VIP
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Court Content -->
+                <div class="p-8">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-map-marker-alt text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Sân Olympic</h3>
+                            <p class="text-sm text-gray-600">Cầu Giấy</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Features -->
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-clock mr-2 text-gray-400"></i>
+                            <span>Mở cửa 24/7</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-wifi mr-2 text-gray-400"></i>
+                            <span>WiFi miễn phí</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-car mr-2 text-gray-400"></i>
+                            <span>Bãi đỗ xe</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Price and Action -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900">250.000₫</div>
+                            <div class="text-sm text-gray-600">/ giờ</div>
+                        </div>
+                        <a href="{% url 'booking:court_list' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                            <i class="fas fa-calendar-check mr-1"></i>
+                            Đặt sân
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-green-600 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-white mb-4">Sẵn sàng chơi cầu lông?</h2>
+        <p class="text-xl text-green-100 mb-8">Đăng ký ngay hôm nay để nhận ưu đãi 20% cho lần đặt sân đầu tiên</p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{% url 'booking:court_list' %}" class="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-full text-lg font-semibold shadow-lg transform hover:scale-105 transition">
-                <i class="fas fa-calendar-check mr-2"></i> Đặt sân ngay
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Đặt sân ngay
             </a>
-            {% if not user.is_authenticated %}
-            <a href="{% url 'accounts:register' %}" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg transform hover:scale-105 transition">
-                <i class="fas fa-user-plus mr-2"></i> Đăng ký tài khoản
+            <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                Liên hệ tư vấn
             </a>
-            {% endif %}
         </div>
     </div>
 </div>
-
-<!-- Features -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-blue-500">
-        <div class="text-blue-600 text-5xl mb-4">
-            <i class="fas fa-clock"></i>
-        </div>
-        <h3 class="text-2xl font-bold mb-3 text-gray-800">Đặt sân 24/7</h3>
-        <p class="text-gray-600">Đặt sân mọi lúc, mọi nơi với hệ thống trực tuyến tiện lợi</p>
-    </div>
-    
-    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-green-500">
-        <div class="text-green-600 text-5xl mb-4">
-            <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3 class="text-2xl font-bold mb-3 text-gray-800">Thanh toán an toàn</h3>
-        <p class="text-gray-600">Hệ thống thanh toán bảo mật, minh bạch và đáng tin cậy</p>
-    </div>
-    
-    <div class="bg-white rounded-2xl shadow-lg p-8 transform hover:scale-105 transition border-t-4 border-yellow-500">
-        <div class="text-yellow-600 text-5xl mb-4">
-            <i class="fas fa-star"></i>
-        </div>
-        <h3 class="text-2xl font-bold mb-3 text-gray-800">Dịch vụ chất lượng</h3>
-        <p class="text-gray-600">Sân đẹp, thiết bị hiện đại, dịch vụ bổ sung đa dạng</p>
-    </div>
-</div>
-
-<!-- Services -->
-<div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
-    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">
-        <i class="fas fa-concierge-bell text-blue-600 mr-2"></i>
-        Dịch vụ của chúng tôi
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
-            <i class="fas fa-table-tennis text-4xl text-blue-600 mb-3"></i>
-            <h4 class="font-semibold text-lg">Đặt sân cầu lông</h4>
-        </div>
-        <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
-            <i class="fas fa-glass-water text-4xl text-green-600 mb-3"></i>
-            <h4 class="font-semibold text-lg">Nước uống</h4>
-        </div>
-        <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
-            <i class="fas fa-baseball text-4xl text-yellow-600 mb-3"></i>
-            <h4 class="font-semibold text-lg">Thuê thiết bị</h4>
-        </div>
-        <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
-            <i class="fas fa-users text-4xl text-purple-600 mb-3"></i>
-            <h4 class="font-semibold text-lg">Hỗ trợ 24/7</h4>
-        </div>
-    </div>
-</div>
-
-<!-- Statistics -->
-<div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-8 text-white">
-    <h2 class="text-3xl font-bold mb-8 text-center">
-        <i class="fas fa-chart-bar mr-2"></i>
-        Thống kê
-    </h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div>
-            <div class="text-4xl font-bold mb-2">500+</div>
-            <div class="text-purple-200">Khách hàng</div>
-        </div>
-        <div>
-            <div class="text-4xl font-bold mb-2">10+</div>
-            <div class="text-purple-200">Sân cầu lông</div>
-        </div>
-        <div>
-            <div class="text-4xl font-bold mb-2">1000+</div>
-            <div class="text-purple-200">Đơn đặt sân</div>
-        </div>
-        <div>
-            <div class="text-4xl font-bold mb-2">5★</div>
-            <div class="text-purple-200">Đánh giá</div>
-        </div>
-    </div>
-</div>
-
-<!-- CTA -->
-{% if not user.is_authenticated %}
-<div class="text-center mt-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl shadow-lg p-12 text-white">
-    <h2 class="text-3xl font-bold mb-4">Bắt đầu ngay hôm nay!</h2>
-    <p class="text-xl mb-8">Đăng ký tài khoản để trải nghiệm dịch vụ đặt sân tuyệt vời</p>
-    <a href="{% url 'accounts:register' %}" class="bg-white text-orange-600 hover:bg-orange-50 px-10 py-4 rounded-full text-lg font-semibold shadow-lg inline-block transform hover:scale-105 transition">
-        <i class="fas fa-rocket mr-2"></i> Đăng ký miễn phí
-    </a>
-</div>
-{% endif %}
 {% endblock %}

@@ -3,27 +3,28 @@
 {% block title %}Đơn dịch vụ{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">
-        <i class="fas fa-shopping-bag text-blue-600 mr-2"></i> Đơn hàng dịch vụ
-    </h2>
-    
-    <!-- Filters -->
-    <div class="flex flex-wrap gap-2">
-        <a href="{% url 'services:service_order_list' %}" class="px-4 py-2 rounded-lg {% if not request.GET.status %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
-            Tất cả
-        </a>
-        <a href="?status=pending" class="px-4 py-2 rounded-lg {% if request.GET.status == 'pending' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
-            Chờ xử lý
-        </a>
-        <a href="?status=processing" class="px-4 py-2 rounded-lg {% if request.GET.status == 'processing' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
-            Đang xử lý
-        </a>
-        <a href="?status=completed" class="px-4 py-2 rounded-lg {% if request.GET.status == 'completed' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
-            Hoàn thành
-        </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-shopping-bag text-green-600 mr-2"></i> Đơn hàng dịch vụ
+        </h2>
+        
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-2">
+            <a href="{% url 'services:service_order_list' %}" class="px-4 py-2 rounded-lg {% if not request.GET.status %}bg-green-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+                Tất cả
+            </a>
+            <a href="?status=pending" class="px-4 py-2 rounded-lg {% if request.GET.status == 'pending' %}bg-green-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+                Chờ xử lý
+            </a>
+            <a href="?status=processing" class="px-4 py-2 rounded-lg {% if request.GET.status == 'processing' %}bg-green-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+                Đang xử lý
+            </a>
+            <a href="?status=completed" class="px-4 py-2 rounded-lg {% if request.GET.status == 'completed' %}bg-green-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+                Hoàn thành
+            </a>
+        </div>
     </div>
-</div>
 
 <div class="space-y-4">
     {% for order in orders %}
@@ -31,7 +32,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div class="flex-grow">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">
-                    <i class="fas fa-shopping-bag text-purple-600 mr-2"></i>
+                    <i class="fas fa-shopping-bag text-green-600 mr-2"></i>
                     Đơn hàng #{{ order.pk }}
                 </h3>
                 <div class="space-y-1 text-gray-600">
@@ -50,7 +51,7 @@
                     {{ order.get_status_display }}
                 </span>
                 
-                <a href="{% url 'services:service_order_detail' order.pk %}" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition text-sm">
+                <a href="{% url 'services:service_order_detail' order.pk %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm">
                     <i class="fas fa-eye mr-1"></i> Chi tiết
                 </a>
             </div>
@@ -60,10 +61,11 @@
     <div class="text-center py-12 bg-white rounded-xl shadow-lg">
         <i class="fas fa-inbox text-gray-400 text-6xl mb-4"></i>
         <p class="text-gray-600 text-xl">Chưa có đơn hàng nào</p>
-        <a href="{% url 'services:service_order_create' %}" class="inline-block mt-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition">
+        <a href="{% url 'services:service_order_create' %}" class="inline-block mt-4 bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
             <i class="fas fa-plus mr-2"></i> Tạo đơn hàng
         </a>
     </div>
     {% endfor %}
+</div>
 </div>
 {% endblock %}

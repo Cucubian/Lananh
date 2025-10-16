@@ -21,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-@3q0x#r9h@w(6yvp6z3)m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,testserver', cast=Csv())
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'booking',
     'services',
     'management',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -145,5 +146,19 @@ LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Email Configuration (for future use)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # SMTP backend for production
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'chuyenlamson98@gmail.com'  # Thay bằng email thật
+EMAIL_HOST_PASSWORD = 'uhnxljrezbcliumc'  # Thay bằng app password
+DEFAULT_FROM_EMAIL = 'CourtMaster <noreply@courtmaster.vn>'
+
+# VNPay Configuration (Sandbox)
+VNPAY_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'
+VNPAY_TMN_CODE = 'VHHYI4PV'  # Your Sandbox TMN Code
+VNPAY_MOCK = False  # Dùng VNPay thật với credentials mới
+VNPAY_SECRET_KEY = 'NQY9MPVW5V2V665QJGWM7N1EVH7NJ7K6'  # Your Secret Key
+VNPAY_RETURN_URL = 'http://localhost:8000/payment/vnpay-return/'
+VNPAY_IPN_URL = 'http://localhost:8000/payment/vnpay-ipn/'

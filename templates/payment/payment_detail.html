@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Chi tiết thanh toán - CourtMaster{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Chi tiết thanh toán</h1>
+            <p class="text-lg text-gray-600">Thông tin giao dịch của bạn</p>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Detail -->
+<div class="py-12 bg-white">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <!-- Status -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold mb-4
+                    {% if payment.status == 'completed' %}bg-green-100 text-green-800
+                    {% elif payment.status == 'pending' %}bg-yellow-100 text-yellow-800
+                    {% elif payment.status == 'processing' %}bg-blue-100 text-blue-800
+                    {% elif payment.status == 'failed' %}bg-red-100 text-red-800
+                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                    {% if payment.status == 'completed' %}<i class="fas fa-check-circle mr-2"></i>
+                    {% elif payment.status == 'pending' %}<i class="fas fa-clock mr-2"></i>
+                    {% elif payment.status == 'processing' %}<i class="fas fa-spinner mr-2"></i>
+                    {% elif payment.status == 'failed' %}<i class="fas fa-times-circle mr-2"></i>
+                    {% endif %}
+                    {{ payment.get_status_display }}
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Thanh toán {{ payment.get_payment_method_display }}</h2>
+                <p class="text-gray-600">Mã giao dịch: {{ payment.id }}</p>
+            </div>
+
+            <!-- Amount -->
+            <div class="text-center mb-8">
+                <p class="text-gray-600 mb-2">Số tiền</p>
+                <p class="text-4xl font-bold text-green-600">{{ payment.amount|floatformat:0 }}₫</p>
+            </div>
+
+            <!-- Booking Info -->
+            {% if payment.booking %}
+            <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Thông tin đặt sân</h3>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-600">Sân:</span>
+                        <p class="font-semibold">{{ payment.booking.court.name }}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Ngày:</span>
+                        <p class="font-semibold">{{ payment.booking.date|date:"d/m/Y" }}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Số giờ:</span>
+                        <p class="font-semibold">{{ payment.booking.total_hours }} giờ</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Giá/giờ:</span>
+                        <p class="font-semibold">{{ payment.booking.court.price_per_hour|floatformat:0 }}₫</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Payment Details -->
+            <div class="space-y-3 mb-8">
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-600">Ngày tạo:</span>
+                    <span class="font-semibold">{{ payment.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% if payment.expired_at %}
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-600">Hết hạn:</span>
+                    <span class="font-semibold text-red-600">{{ payment.expired_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% endif %}
+                {% if payment.paid_at %}
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-600">Ngày thanh toán:</span>
+                    <span class="font-semibold">{{ payment.paid_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- VNPay Payment Button -->
+            {% if payment.status == 'pending' and payment.payment_method == 'vnpay' %}
+            <div class="text-center mb-6">
+                <a href="{% url 'payment:vnpay_payment' payment.id %}" class="inline-flex items-center justify-center w-full px-6 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition shadow-lg">
+                    <i class="fas fa-credit-card mr-2"></i>
+                    Thanh toán VNPay
+                </a>
+                <p class="text-sm text-gray-500 mt-2">Nhấn để chuyển đến trang thanh toán VNPay</p>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4">
+                <a href="{% url 'booking:booking_list' %}" class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition">
+                    <i class="fas fa-list mr-2"></i>
+                    Danh sách đặt sân
+                </a>
+                {% if payment.booking %}
+                <a href="{% url 'booking:booking_detail' payment.booking.pk %}" class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition">
+                    <i class="fas fa-eye mr-2"></i>
+                    Xem đặt sân
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auto refresh for processing payments -->
+{% if payment.status == 'processing' %}
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 5000);
+</script>
+{% endif %}
+{% endblock %}

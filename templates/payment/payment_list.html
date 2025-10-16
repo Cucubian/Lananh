@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách thanh toán - CourtMaster{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-list mr-2"></i>
+                Lịch sử thanh toán
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Danh sách thanh toán</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Xem lịch sử các giao dịch thanh toán của bạn</p>
+        </div>
+    </div>
+</div>
+
+<!-- Payment List Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if payments %}
+        <div class="space-y-6">
+            {% for payment in payments %}
+            <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                    <!-- Payment Info -->
+                    <div class="flex items-start space-x-6 flex-grow">
+                        <!-- Status Icon -->
+                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0
+                            {% if payment.status == 'completed' %}bg-green-100
+                            {% elif payment.status == 'pending' %}bg-yellow-100
+                            {% elif payment.status == 'processing' %}bg-blue-100
+                            {% elif payment.status == 'failed' %}bg-red-100
+                            {% elif payment.status == 'cancelled' %}bg-gray-100
+                            {% else %}bg-gray-100{% endif %}">
+                            {% if payment.status == 'completed' %}<i class="fas fa-check text-green-600"></i>
+                            {% elif payment.status == 'pending' %}<i class="fas fa-clock text-yellow-600"></i>
+                            {% elif payment.status == 'processing' %}<i class="fas fa-spinner text-blue-600"></i>
+                            {% elif payment.status == 'failed' %}<i class="fas fa-times text-red-600"></i>
+                            {% elif payment.status == 'cancelled' %}<i class="fas fa-ban text-gray-600"></i>
+                            {% else %}<i class="fas fa-question text-gray-600"></i>{% endif %}
+                        </div>
+                        
+                        <!-- Payment Details -->
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">{{ payment.get_payment_method_display }}</h3>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
+                                    {% if payment.status == 'completed' %}bg-green-100 text-green-800
+                                    {% elif payment.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                    {% elif payment.status == 'processing' %}bg-blue-100 text-blue-800
+                                    {% elif payment.status == 'failed' %}bg-red-100 text-red-800
+                                    {% elif payment.status == 'cancelled' %}bg-gray-100 text-gray-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ payment.get_status_display }}
+                                </span>
+                            </div>
+                            
+                            <p class="text-gray-600 mb-3">{{ payment.description|truncatewords:20 }}</p>
+                            
+                            <!-- Payment Info -->
+                            <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    <span>{{ payment.created_at|date:"d/m/Y H:i" }}</span>
+                                </div>
+                                {% if payment.booking %}
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span>{{ payment.booking.court.name }}</span>
+                                </div>
+                                {% endif %}
+                                {% if payment.vnpay_transaction_id %}
+                                <div class="flex items-center">
+                                    <i class="fas fa-receipt mr-2"></i>
+                                    <span>{{ payment.vnpay_transaction_id }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Amount and Action -->
+                    <div class="text-center lg:text-right flex-shrink-0">
+                        <div class="mb-4">
+                            <div class="text-3xl font-bold text-gray-900">
+                                {{ payment.amount|floatformat:0 }}₫
+                            </div>
+                            <div class="text-sm text-gray-600">VND</div>
+                        </div>
+                        
+                        <a href="{% url 'payment:payment_detail' payment.id %}" class="inline-flex items-center justify-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition shadow-lg">
+                            <i class="fas fa-eye mr-2"></i>
+                            Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-credit-card text-gray-400 text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Chưa có thanh toán nào</h3>
+            <p class="text-gray-600 mb-8">Bạn chưa có giao dịch thanh toán nào trong hệ thống.</p>
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition">
+                <i class="fas fa-plus mr-2"></i>
+                Đặt sân ngay
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-green-600 py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Cần hỗ trợ?</h2>
+        <p class="text-xl text-green-100 mb-8">Liên hệ với chúng tôi nếu bạn có thắc mắc về thanh toán</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-headset mr-2"></i>
+                Liên hệ hỗ trợ
+            </a>
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                <i class="fas fa-calendar-plus mr-2"></i>
+                Đặt sân mới
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

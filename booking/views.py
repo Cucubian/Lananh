@@ -14,6 +14,8 @@ def court_list(request):
 def booking_create(request, court_id=None):
     if request.method == 'POST':
         form = BookingForm(request.POST)
+        payment_method = request.POST.get('payment_method', 'vnpay')
+        
         if form.is_valid():
             booking = form.save(commit=False)
             booking.customer = request.user
@@ -21,8 +23,17 @@ def booking_create(request, court_id=None):
             booking.total_price = booking.court.price_per_hour * booking.total_hours
             booking.save()
             form.save_m2m()  # Save many-to-many relationships
-            messages.success(request, 'Đặt sân thành công! Vui lòng thanh toán và upload minh chứng.')
-            return redirect('booking:booking_detail', pk=booking.pk)
+            
+            # Redirect based on chosen payment method
+            if payment_method == 'vnpay':
+                messages.success(request, 'Đặt sân thành công! Chuyển đến thanh toán VNPay.')
+                return redirect('payment:create_vnpay_payment', booking_id=booking.id)
+            elif payment_method == 'qr_code':
+                messages.success(request, 'Đặt sân thành công! Vui lòng upload minh chứng thanh toán.')
+                return redirect('booking:booking_upload_payment', pk=booking.pk)
+            else:
+                messages.success(request, 'Đặt sân thành công! Vui lòng thanh toán và upload minh chứng.')
+                return redirect('booking:booking_detail', pk=booking.pk)
     else:
         initial = {}
         if court_id:

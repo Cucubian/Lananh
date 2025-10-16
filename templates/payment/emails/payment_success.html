@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận thanh toán - CourtMaster</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #2d3748;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #f7fafc;
+        }
+        .email-container {
+            background-color: #ffffff;
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        .main-text {
+            font-size: 15px;
+            margin-bottom: 25px;
+            color: #2d3748;
+        }
+        .info-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .card-title::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            background-color: #48bb78;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 500;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .amount {
+            color: #48bb78;
+            font-size: 16px;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #48bb78;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 20px 0;
+            transition: background-color 0.2s;
+        }
+        .action-button:hover {
+            background-color: #38a169;
+        }
+        .notice {
+            background-color: #edf2f7;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .notice-text {
+            font-size: 14px;
+            color: #2d3748;
+            margin: 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-text {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        .contact-info {
+            font-size: 12px;
+            color: #a0aec0;
+            margin-top: 15px;
+        }
+        .contact-info a {
+            color: #48bb78;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">CourtMaster</div>
+            <div class="status-badge">Thanh toán hoàn tất</div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Chào {{ user.full_name|default:user.username }},
+            </div>
+
+            <div class="main-text">
+                Chúng tôi xác nhận đã nhận được thanh toán của bạn. Đơn đặt sân đã được kích hoạt và sẵn sàng sử dụng.
+            </div>
+
+            <div class="info-card">
+                <div class="card-title">Chi tiết giao dịch</div>
+                <div class="info-item">
+                    <span class="info-label">Mã giao dịch</span>
+                    <span class="info-value">{{ payment.id|slice:":8"|upper }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phương thức</span>
+                    <span class="info-value">{{ payment.get_payment_method_display }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Số tiền</span>
+                    <span class="info-value amount">{{ payment.amount|floatformat:0 }}₫</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Thời gian</span>
+                    <span class="info-value">{{ payment.paid_at|date:"d/m/Y H:i" }}</span>
+                </div>
+            </div>
+
+            {% if booking %}
+            <div class="info-card">
+                <div class="card-title">Thông tin đặt sân</div>
+                <div class="info-item">
+                    <span class="info-label">Sân</span>
+                    <span class="info-value">{{ booking.court.name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ngày</span>
+                    <span class="info-value">{{ booking.date|date:"d/m/Y" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Khung giờ</span>
+                    <span class="info-value">{{ booking.start_time|time:"H:i" }} - {{ booking.end_time|time:"H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Thời lượng</span>
+                    <span class="info-value">{{ booking.total_hours }} giờ</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Trạng thái</span>
+                    <span class="info-value" style="color: #48bb78;">{{ booking.get_status_display }}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="text-align: center;">
+                <a href="{{ site_url }}{% url 'booking:booking_detail' booking.pk %}" class="action-button">
+                    Xem đơn đặt sân
+                </a>
+            </div>
+
+            <div class="notice">
+                <p class="notice-text">
+                    <strong>Lưu ý:</strong> Vui lòng đến sân đúng giờ. Nếu cần thay đổi, hãy liên hệ trước 2 giờ.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                Cảm ơn bạn đã tin tưởng CourtMaster
+            </div>
+            <div class="contact-info">
+                Email: info@courtmaster.vn | Hotline: 1900 xxxx<br>
+                <a href="{{ site_url }}">courtmaster.vn</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

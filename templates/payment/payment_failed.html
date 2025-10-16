@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Thanh toán thất bại - CourtMaster{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-red-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-times-circle mr-2"></i>
+                Thanh toán thất bại
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Thanh toán thất bại</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Có vấn đề xảy ra với giao dịch của bạn</p>
+        </div>
+    </div>
+</div>
+
+<!-- Failed Content -->
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <!-- Failed Icon -->
+            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-times text-red-600 text-4xl"></i>
+            </div>
+            
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Giao dịch không thành công</h2>
+            <p class="text-lg text-gray-600 mb-8">Thanh toán của bạn đã bị thất bại</p>
+        </div>
+
+        <!-- Payment Summary -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Thông tin giao dịch</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Mã thanh toán:</span>
+                        <span class="font-semibold text-gray-900">{{ payment.id }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Số tiền:</span>
+                        <span class="font-bold text-2xl text-gray-900">{{ payment.amount|floatformat:0 }}₫</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Phương thức:</span>
+                        <span class="font-semibold text-gray-900">{{ payment.get_payment_method_display }}</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Ngày tạo:</span>
+                        <span class="font-semibold text-gray-900">{{ payment.created_at|date:"d/m/Y H:i" }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Trạng thái:</span>
+                        <span class="inline-flex items-center px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
+                            <i class="fas fa-times-circle mr-1"></i>
+                            Thất bại
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Info -->
+        {% if payment.booking %}
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Thông tin đặt sân</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-gray-600 text-sm">Sân:</span>
+                        <p class="font-semibold text-gray-900">{{ payment.booking.court.name }}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-600 text-sm">Ngày:</span>
+                        <p class="font-semibold text-gray-900">{{ payment.booking.start_time|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-gray-600 text-sm">Thời gian:</span>
+                        <p class="font-semibold text-gray-900">{{ payment.booking.start_time|time:"H:i" }} - {{ payment.booking.end_time|time:"H:i" }}</p>
+                    </div>
+                    <div>
+                        <span class="text-gray-600 text-sm">Trạng thái:</span>
+                        <span class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                            <i class="fas fa-clock mr-1"></i>
+                            Chờ thanh toán
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Help Section -->
+        <div class="bg-yellow-50 rounded-2xl p-8 mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Cần hỗ trợ?</h3>
+            <div class="space-y-3">
+                <div class="flex items-center">
+                    <i class="fas fa-phone text-yellow-600 mr-3"></i>
+                    <span class="text-gray-700">Gọi hotline: 1900 xxxx</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-envelope text-yellow-600 mr-3"></i>
+                    <span class="text-gray-700">Email: info@courtmaster.vn</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-yellow-600 mr-3"></i>
+                    <span class="text-gray-700">Hỗ trợ 24/7</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'payment:retry_payment' payment.id %}" class="inline-flex items-center justify-center px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition">
+                <i class="fas fa-redo mr-2"></i>
+                Thử lại thanh toán
+            </a>
+            
+            <a href="{% url 'payment:payment_detail' payment.id %}" class="inline-flex items-center justify-center px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition">
+                <i class="fas fa-info-circle mr-2"></i>
+                Xem chi tiết
+            </a>
+            
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition">
+                <i class="fas fa-plus mr-2"></i>
+                Đặt sân khác
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-red-600 py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Đừng lo lắng!</h2>
+        <p class="text-xl text-red-100 mb-8">Chúng tôi sẽ hỗ trợ bạn giải quyết vấn đề này</p>
+        <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-red-600 hover:bg-red-50 font-semibold rounded-lg transition">
+            <i class="fas fa-headset mr-2"></i>
+            Liên hệ hỗ trợ
+        </a>
+    </div>
+</div>
+{% endblock %}

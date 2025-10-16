@@ -51,7 +51,7 @@ class TimeSlot(models.Model):
 
 class Booking(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Chờ xác nhận'),
+        ('pending', 'Chờ thanh toán'),
         ('confirmed', 'Đã xác nhận'),
         ('cancelled', 'Đã hủy'),
         ('completed', 'Hoàn thành'),
@@ -69,6 +69,10 @@ class Booking(models.Model):
     created_at = models.DateTimeField('Ngày tạo', auto_now_add=True)
     updated_at = models.DateTimeField('Ngày cập nhật', auto_now=True)
     
+    # Payment related fields
+    payment_required = models.BooleanField('Yêu cầu thanh toán', default=True)
+    payment_deadline = models.DateTimeField('Hạn thanh toán', blank=True, null=True)
+    
     class Meta:
         verbose_name = 'Đơn đặt sân'
         verbose_name_plural = 'Đơn đặt sân'
@@ -81,3 +85,40 @@ class Booking(models.Model):
         if self.pk:  # If this is an update
             self.total_price = self.court.price_per_hour * self.total_hours
         super().save(*args, **kwargs)
+    
+    @property
+    def total_amount(self):
+        """Tổng số tiền cần thanh toán"""
+        return self.total_price
+    
+    @property
+    def user(self):
+        """Alias cho customer để tương thích với payment"""
+        return self.customer
+    
+    @property
+    def start_time(self):
+        """Thời gian bắt đầu (từ time_slots đầu tiên)"""
+        if self.time_slots.exists():
+            first_slot = self.time_slots.first()
+            from datetime import datetime, time
+            return datetime.combine(self.date, time.fromisoformat(first_slot.time))
+        return None
+    
+    @property
+    def end_time(self):
+        """Thời gian kết thúc (từ time_slots cuối cùng + 1 giờ)"""
+        if self.time_slots.exists():
+            last_slot = self.time_slots.last()
+            from datetime import datetime, time, timedelta
+            end_hour = int(last_slot.time.split(':')[0]) + 1
+            return datetime.combine(self.date, time(end_hour, 0))
+        return None
+    
+    def has_paid_payment(self):
+        """Kiểm tra xem booking đã có thanh toán thành công chưa"""
+        return self.payments.filter(status='completed').exists()
+    
+    def get_pending_payment(self):
+        """Lấy thanh toán đang chờ xử lý"""
+        return self.payments.filter(status__in=['pending', 'processing']).first()

@@ -92,7 +92,10 @@ def user_management(request):
     # Filters
     role = request.GET.get('role')
     if role:
-        users = users.filter(role=role)
+        if role == 'admin':
+            users = users.filter(is_superuser=True)
+        else:
+            users = users.filter(role=role)
     
     search = request.GET.get('search')
     if search:

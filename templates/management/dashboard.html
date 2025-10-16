@@ -1,147 +1,371 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - Quản lý{% endblock %}
+{% block title %}Dashboard - CourtMaster{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-2">
-        <i class="fas fa-chart-line text-blue-600 mr-2"></i> Dashboard Quản lý
-    </h2>
-    <p class="text-gray-600">Tổng quan hoạt động hệ thống</p>
-</div>
-
-<!-- Statistics Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg p-6 text-white">
-        <div class="flex items-center justify-between mb-4">
-            <i class="fas fa-calendar-check text-4xl opacity-80"></i>
-            <span class="text-3xl font-bold">{{ total_bookings }}</span>
-        </div>
-        <h3 class="text-lg font-semibold">Tổng đơn đặt sân</h3>
-    </div>
-    
-    <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl shadow-lg p-6 text-white">
-        <div class="flex items-center justify-between mb-4">
-            <i class="fas fa-clock text-4xl opacity-80"></i>
-            <span class="text-3xl font-bold">{{ pending_bookings }}</span>
-        </div>
-        <h3 class="text-lg font-semibold">Chờ xác nhận</h3>
-    </div>
-    
-    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg p-6 text-white">
-        <div class="flex items-center justify-between mb-4">
-            <i class="fas fa-check-circle text-4xl opacity-80"></i>
-            <span class="text-3xl font-bold">{{ confirmed_bookings }}</span>
-        </div>
-        <h3 class="text-lg font-semibold">Đã xác nhận</h3>
-    </div>
-    
-    <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-lg p-6 text-white">
-        <div class="flex items-center justify-between mb-4">
-            <i class="fas fa-money-bill-wave text-4xl opacity-80"></i>
-            <span class="text-2xl font-bold">{{ total_revenue|floatformat:0 }}₫</span>
-        </div>
-        <h3 class="text-lg font-semibold">Doanh thu sân</h3>
-    </div>
-</div>
-
-<!-- Service Stats -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    <div class="bg-white rounded-2xl shadow-lg p-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">
-            <i class="fas fa-shopping-bag text-pink-600 mr-2"></i> Dịch vụ bổ sung
-        </h3>
-        <div class="space-y-3">
-            <div class="flex justify-between items-center">
-                <span class="text-gray-600">Tổng đơn hàng:</span>
-                <span class="font-bold text-gray-800">{{ total_service_orders }}</span>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-chart-line mr-2"></i>
+                Dashboard quản lý
             </div>
-            <div class="flex justify-between items-center">
-                <span class="text-gray-600">Doanh thu:</span>
-                <span class="font-bold text-pink-600">{{ service_revenue|floatformat:0 }}₫</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bg-white rounded-2xl shadow-lg p-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">
-            <i class="fas fa-chart-pie text-blue-600 mr-2"></i> Tổng doanh thu
-        </h3>
-        <div class="text-center">
-            <p class="text-4xl font-bold text-blue-600 mb-2">
-                {{ total_revenue|add:service_revenue|floatformat:0 }}₫
-            </p>
-            <p class="text-gray-600">Sân + Dịch vụ</p>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Tổng quan hệ thống</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Theo dõi và quản lý toàn bộ hoạt động của hệ thống đặt sân cầu lông</p>
         </div>
     </div>
 </div>
 
-<!-- Recent Bookings -->
-<div class="bg-white rounded-2xl shadow-lg p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-800">
-            <i class="fas fa-clock text-blue-600 mr-2"></i> Đơn đặt sân gần đây
-        </h3>
-        <a href="{% url 'management:booking_management' %}" class="text-blue-600 hover:text-blue-800 font-semibold">
-            Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-        </a>
+<!-- Statistics Cards Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <!-- Total Bookings -->
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-8 text-white">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-2xl"></i>
+                    </div>
+                    <span class="text-4xl font-bold">{{ total_bookings }}</span>
+                </div>
+                <h3 class="text-lg font-semibold">Tổng đơn đặt sân</h3>
+                <p class="text-blue-100 text-sm mt-2">Tất cả đơn đặt sân</p>
+            </div>
+            
+            <!-- Pending Bookings -->
+            <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl shadow-xl p-8 text-white">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-clock text-2xl"></i>
+                    </div>
+                    <span class="text-4xl font-bold">{{ pending_bookings }}</span>
+                </div>
+                <h3 class="text-lg font-semibold">Chờ xác nhận</h3>
+                <p class="text-yellow-100 text-sm mt-2">Cần xử lý</p>
+            </div>
+            
+            <!-- Confirmed Bookings -->
+            <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-xl p-8 text-white">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                    <span class="text-4xl font-bold">{{ confirmed_bookings }}</span>
+                </div>
+                <h3 class="text-lg font-semibold">Đã xác nhận</h3>
+                <p class="text-green-100 text-sm mt-2">Đã xác nhận</p>
+            </div>
+            
+            <!-- Total Revenue -->
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-xl p-8 text-white">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-money-bill-wave text-2xl"></i>
+                    </div>
+                    <span class="text-3xl font-bold">{{ total_revenue|floatformat:0 }}₫</span>
+                </div>
+                <h3 class="text-lg font-semibold">Doanh thu sân</h3>
+                <p class="text-purple-100 text-sm mt-2">Từ đặt sân</p>
+            </div>
+        </div>
+        
+        <!-- Service and Revenue Stats -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <!-- Service Stats -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-shopping-bag text-pink-600 mr-3"></i>
+                    Dịch vụ bổ sung
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-gray-600 font-medium">Tổng đơn hàng:</span>
+                        <span class="text-xl font-bold text-gray-900">{{ total_service_orders }}</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-pink-50 rounded-lg">
+                        <span class="text-gray-600 font-medium">Doanh thu:</span>
+                        <span class="text-xl font-bold text-pink-600">{{ service_revenue|floatformat:0 }}₫</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Revenue -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-chart-pie text-green-600 mr-3"></i>
+                    Tổng doanh thu
+                </h3>
+                <div class="text-center">
+                    <p class="text-5xl font-bold text-green-600 mb-4">
+                        {{ total_revenue|add:service_revenue|floatformat:0 }}₫
+                    </p>
+                    <p class="text-gray-600">Sân + Dịch vụ</p>
+                    <div class="mt-4 flex justify-center space-x-4">
+                        <span class="text-sm text-gray-500">Sân: {{ total_revenue|floatformat:0 }}₫</span>
+                        <span class="text-sm text-gray-500">Dịch vụ: {{ service_revenue|floatformat:0 }}₫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <!-- Revenue Chart -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-chart-line text-green-600 mr-3"></i>
+                    Doanh thu 7 ngày qua
+                </h3>
+                <div class="relative h-64">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Booking Status Chart -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-chart-pie text-blue-600 mr-3"></i>
+                    Trạng thái đặt sân
+                </h3>
+                <div class="relative h-64">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Khách hàng</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Sân</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ngày</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Giá</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Trạng thái</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% for booking in recent_bookings %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3">{{ booking.customer.full_name }}</td>
-                    <td class="px-4 py-3">{{ booking.court.name }}</td>
-                    <td class="px-4 py-3">{{ booking.date|date:"d/m/Y" }}</td>
-                    <td class="px-4 py-3">{{ booking.total_price|floatformat:0 }}₫</td>
-                    <td class="px-4 py-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold
-                            {% if booking.status == 'pending' %}bg-yellow-100 text-yellow-800
-                            {% elif booking.status == 'confirmed' %}bg-green-100 text-green-800
-                            {% elif booking.status == 'completed' %}bg-blue-100 text-blue-800
-                            {% else %}bg-red-100 text-red-800{% endif %}">
-                            {{ booking.get_status_display }}
-                        </span>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-gray-600">
-                        Chưa có đơn đặt sân nào
-                    </td>
-                </tr>
+</div>
+
+<!-- Recent Bookings Section -->
+<div class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <!-- Table Header -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-white flex items-center">
+                        <i class="fas fa-clock mr-3"></i>
+                        Đơn đặt sân gần đây
+                    </h3>
+                    <a href="{% url 'management:booking_management' %}" class="inline-flex items-center px-4 py-2 bg-white bg-opacity-20 text-white hover:bg-opacity-30 rounded-lg transition">
+                        Xem tất cả
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Table Content -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Khách hàng</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sân</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ngày</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Giá</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for booking in recent_bookings %}
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-user text-green-600"></i>
+                                    </div>
+                                    <span class="font-medium text-gray-900">{{ booking.customer.full_name }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ booking.court.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ booking.date|date:"d/m/Y" }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900 font-semibold">{{ booking.total_price|floatformat:0 }}₫</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                    {% if booking.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                    {% elif booking.status == 'confirmed' %}bg-green-100 text-green-800
+                                    {% elif booking.status == 'completed' %}bg-blue-100 text-blue-800
+                                    {% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ booking.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-inbox text-gray-400 text-2xl"></i>
+                                </div>
+                                <p class="text-gray-600 text-lg">Chưa có đơn đặt sân nào</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Thao tác nhanh</h2>
+            <p class="text-lg text-gray-600">Quản lý các chức năng chính của hệ thống</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <a href="{% url 'management:booking_management' %}" class="group bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-8 hover:from-blue-600 hover:to-blue-700 transition shadow-xl transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition">
+                    <i class="fas fa-calendar-check text-3xl"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Quản lý đặt sân</h4>
+                <p class="text-blue-100">Xem và xử lý các đơn đặt sân</p>
+            </a>
+            
+            <a href="{% url 'management:user_management' %}" class="group bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-8 hover:from-green-600 hover:to-green-700 transition shadow-xl transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition">
+                    <i class="fas fa-users text-3xl"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Quản lý người dùng</h4>
+                <p class="text-green-100">Quản lý tài khoản người dùng</p>
+            </a>
+            
+            <a href="{% url 'management:revenue_report' %}" class="group bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-2xl p-8 hover:from-purple-600 hover:to-purple-700 transition shadow-xl transform hover:-translate-y-1">
+                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-opacity-30 transition">
+                    <i class="fas fa-chart-bar text-3xl"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Báo cáo doanh thu</h4>
+                <p class="text-purple-100">Xem báo cáo doanh thu chi tiết</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-green-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Cần hỗ trợ quản lý?</h2>
+        <p class="text-xl text-green-100 mb-8">Liên hệ với chúng tôi để được hỗ trợ quản lý hệ thống</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'management:booking_management' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-calendar-check mr-2"></i>
+                Quản lý đặt sân
+            </a>
+            <a href="{% url 'management:user_management' %}" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                <i class="fas fa-users mr-2"></i>
+                Quản lý người dùng
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Revenue Chart (Line Chart)
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for day in daily_revenue %}
+                    '{{ day.day|date:"d/m" }}'{% if not forloop.last %},{% endif %}
                 {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+            ],
+            datasets: [{
+                label: 'Doanh thu (₫)',
+                data: [
+                    {% for day in daily_revenue %}
+                        {{ day.revenue|default:0 }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                borderColor: 'rgb(34, 197, 94)',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: 'rgb(34, 197, 94)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '₫';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    hoverBackgroundColor: 'rgb(34, 197, 94)'
+                }
+            }
+        }
+    });
 
-<!-- Quick Actions -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-    <a href="{% url 'management:booking_management' %}" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl p-6 hover:from-blue-700 hover:to-blue-800 transition shadow-lg transform hover:scale-105">
-        <i class="fas fa-calendar-check text-3xl mb-3"></i>
-        <h4 class="font-semibold text-lg">Quản lý đặt sân</h4>
-    </a>
-    
-    <a href="{% url 'management:user_management' %}" class="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl p-6 hover:from-green-700 hover:to-green-800 transition shadow-lg transform hover:scale-105">
-        <i class="fas fa-users text-3xl mb-3"></i>
-        <h4 class="font-semibold text-lg">Quản lý người dùng</h4>
-    </a>
-    
-    <a href="{% url 'management:revenue_report' %}" class="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl p-6 hover:from-purple-700 hover:to-purple-800 transition shadow-lg transform hover:scale-105">
-        <i class="fas fa-chart-bar text-3xl mb-3"></i>
-        <h4 class="font-semibold text-lg">Báo cáo doanh thu</h4>
-    </a>
-</div>
+    // Status Chart (Doughnut Chart)
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const statusChart = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Chờ xác nhận', 'Đã xác nhận', 'Hoàn thành', 'Đã hủy'],
+            datasets: [{
+                data: [{{ pending_bookings }}, {{ confirmed_bookings }}, 0, 0],
+                backgroundColor: [
+                    'rgb(251, 191, 36)',  // Yellow for pending
+                    'rgb(34, 197, 94)',   // Green for confirmed
+                    'rgb(59, 130, 246)',  // Blue for completed
+                    'rgb(239, 68, 68)'    // Red for cancelled
+                ],
+                borderColor: '#fff',
+                borderWidth: 3,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+            cutout: '60%'
+        }
+    });
+});
+</script>
 {% endblock %}

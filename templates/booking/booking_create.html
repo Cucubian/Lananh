@@ -1,92 +1,243 @@
 {% extends 'base.html' %}
 
-{% block title %}Đặt sân{% endblock %}
+{% block title %}Đặt sân - CourtMaster{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl p-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
-            <i class="fas fa-calendar-check text-blue-600 mr-2"></i> Đặt sân cầu lông
-        </h2>
-        
-        <form method="post" class="space-y-6">
-            {% csrf_token %}
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Chọn sân <span class="text-red-500">*</span>
-                </label>
-                {{ form.court }}
-                {% if form.court.errors %}
-                    {% for error in form.court.errors %}
-                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-calendar-check mr-2"></i>
+                Đặt sân cầu lông
             </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Ngày đặt <span class="text-red-500">*</span>
-                </label>
-                {{ form.date }}
-                {% if form.date.errors %}
-                    {% for error in form.date.errors %}
-                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Khung giờ <span class="text-red-500">*</span>
-                </label>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {% for choice in form.time_slots %}
-                    <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200 hover:border-blue-500 transition">
-                        {{ choice.tag }}
-                        <span class="ml-2 text-sm">{{ choice.choice_label }}</span>
-                    </label>
-                    {% endfor %}
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Đặt sân dễ dàng</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Chọn sân, thời gian và hoàn tất đặt sân chỉ trong vài phút</p>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Form Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <!-- Form Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar-plus text-white text-2xl"></i>
                 </div>
-                {% if form.time_slots.errors %}
-                    {% for error in form.time_slots.errors %}
-                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
+                <h2 class="text-2xl font-bold text-gray-900">Thông tin đặt sân</h2>
+                <p class="text-gray-600 mt-2">Điền đầy đủ thông tin để hoàn tất đặt sân</p>
             </div>
             
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Ghi chú
-                </label>
-                {{ form.notes }}
-                {% if form.notes.errors %}
-                    {% for error in form.notes.errors %}
-                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
+            <!-- Booking Form -->
+            <form method="post" class="space-y-8">
+                {% csrf_token %}
+                
+                <!-- Court Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-green-500"></i>
+                        Chọn sân
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        {{ form.court }}
+                    </div>
+                    {% if form.court.errors %}
+                        {% for error in form.court.errors %}
+                        <p class="text-red-500 text-sm mt-2">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Date Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-calendar mr-2 text-green-500"></i>
+                        Ngày đặt sân
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        {{ form.date }}
+                    </div>
+                    {% if form.date.errors %}
+                        {% for error in form.date.errors %}
+                        <p class="text-red-500 text-sm mt-2">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Time Slots Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-clock mr-2 text-green-500"></i>
+                        Khung giờ
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {% for choice in form.time_slots %}
+                        <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-green-50 cursor-pointer border border-gray-200 hover:border-green-500 transition group">
+                            {{ choice.tag }}
+                            <span class="ml-3 text-sm font-medium text-gray-700 group-hover:text-green-700">{{ choice.choice_label }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    {% if form.time_slots.errors %}
+                        {% for error in form.time_slots.errors %}
+                        <p class="text-red-500 text-sm mt-2">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Payment Method Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-credit-card mr-2 text-green-500"></i>
+                        Phương thức thanh toán
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- VNPay Online -->
+                        <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200 hover:border-blue-500 transition group">
+                            <input type="radio" name="payment_method" value="vnpay" class="mr-3 text-blue-600 focus:ring-blue-500">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-credit-card text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-blue-700">Thanh toán Online</h4>
+                                    <p class="text-sm text-gray-600">VNPay, thẻ ATM, ví điện tử</p>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <!-- Upload Proof -->
+                        <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-green-50 cursor-pointer border border-gray-200 hover:border-green-500 transition group">
+                            <input type="radio" name="payment_method" value="qr_code" class="mr-3 text-green-600 focus:ring-green-500">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-upload text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 group-hover:text-green-700">Upload minh chứng</h4>
+                                    <p class="text-sm text-gray-600">Chuyển khoản và upload ảnh chứng từ</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <!-- Payment Method Info -->
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-3">
+                            <h5 class="font-semibold text-blue-900 mb-2">Thanh toán Online</h5>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Thẻ ATM nội địa</li>
+                                <li>• Thẻ tín dụng quốc tế</li>
+                                <li>• Ví điện tử (Momo, ZaloPay)</li>
+                                <li>• Internet Banking</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-3">
+                            <h5 class="font-semibold text-green-900 mb-2">Upload minh chứng</h5>
+                            <ul class="text-sm text-green-800 space-y-1">
+                                <li>• Chuyển khoản trực tiếp</li>
+                                <li>• Upload ảnh chứng từ</li>
+                                <li>• Xác nhận thủ công</li>
+                                <li>• Phù hợp với mọi ngân hàng</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-sticky-note mr-2 text-green-500"></i>
+                        Ghi chú thêm
+                    </label>
+                    <div class="relative">
+                        {{ form.notes }}
+                    </div>
+                    {% if form.notes.errors %}
+                        {% for error in form.notes.errors %}
+                        <p class="text-red-500 text-sm mt-2">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Information Box -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h4 class="font-semibold text-green-900 mb-3 flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Thông tin quan trọng
+                    </h4>
+                    <ul class="text-sm text-green-800 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 mt-0.5 text-green-600"></i>
+                            <span>Chọn phương thức thanh toán: VNPay online hoặc upload minh chứng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 mt-0.5 text-green-600"></i>
+                            <span>Đơn đặt sẽ được xác nhận sau khi thanh toán thành công</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 mt-0.5 text-green-600"></i>
+                            <span>Có thể hủy đơn trước 24h khi chơi</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                    <button type="submit" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 rounded-lg font-semibold transition shadow-lg">
+                        <i class="fas fa-check mr-2"></i>
+                        Xác nhận đặt sân
+                    </button>
+                    <a href="{% url 'booking:court_list' %}" class="flex-1 bg-gray-200 text-gray-800 px-6 py-4 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
+                        <i class="fas fa-times mr-2"></i>
+                        Hủy bỏ
+                    </a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Benefits -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center p-6 bg-green-50 rounded-lg">
+                <i class="fas fa-shield-alt text-green-600 text-2xl mb-3"></i>
+                <h3 class="font-semibold text-gray-900 mb-2">Bảo mật thanh toán</h3>
+                <p class="text-sm text-gray-600">Hệ thống thanh toán an toàn và bảo mật</p>
             </div>
-            
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 class="font-semibold text-blue-900 mb-2">
-                    <i class="fas fa-info-circle mr-2"></i> Lưu ý
-                </h4>
-                <ul class="text-sm text-blue-800 space-y-1">
-                    <li>• Vui lòng thanh toán và upload minh chứng sau khi đặt sân</li>
-                    <li>• Đơn đặt sẽ được xác nhận sau khi kiểm tra thanh toán</li>
-                    <li>• Có thể hủy đơn trước 24h khi chơi</li>
-                </ul>
+            <div class="text-center p-6 bg-green-50 rounded-lg">
+                <i class="fas fa-clock text-green-600 text-2xl mb-3"></i>
+                <h3 class="font-semibold text-gray-900 mb-2">Xác nhận nhanh</h3>
+                <p class="text-sm text-gray-600">Đơn đặt được xác nhận trong vòng 30 phút</p>
             </div>
-            
-            <div class="flex gap-4">
-                <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
-                    <i class="fas fa-check mr-2"></i> Đặt sân
-                </button>
-                <a href="{% url 'booking:court_list' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
-                    <i class="fas fa-times mr-2"></i> Hủy
-                </a>
+            <div class="text-center p-6 bg-green-50 rounded-lg">
+                <i class="fas fa-undo text-green-600 text-2xl mb-3"></i>
+                <h3 class="font-semibold text-gray-900 mb-2">Hủy miễn phí</h3>
+                <p class="text-sm text-gray-600">Hủy đặt sân miễn phí trước 24h</p>
             </div>
-        </form>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-green-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Cần hỗ trợ đặt sân?</h2>
+        <p class="text-xl text-green-100 mb-8">Liên hệ với chúng tôi để được tư vấn và hỗ trợ tốt nhất</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="tel:1900xxxx" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-phone mr-2"></i>
+                Gọi hotline
+            </a>
+            <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                <i class="fas fa-comments mr-2"></i>
+                Chat tư vấn
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,50 +1,128 @@
 {% extends 'base.html' %}
 
-{% block title %}Danh sách sân{% endblock %}
+{% block title %}Lịch sân - CourtMaster{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-2">
-        <i class="fas fa-table-tennis text-blue-600 mr-2"></i> Danh sách sân cầu lông
-    </h2>
-    <p class="text-gray-600">Chọn sân yêu thích và đặt ngay!</p>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Lịch sân hôm nay
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Tình trạng sân</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Cập nhật theo thời gian thực - Chọn sân yêu thích và đặt ngay!</p>
+        </div>
+    </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {% for court in courts %}
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition">
-        {% if court.image %}
-        <img src="{{ court.image.url }}" alt="{{ court.name }}" class="w-full h-48 object-cover">
+<!-- Court List Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if courts %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for court in courts %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+                <!-- Court Image -->
+                <div class="relative h-56 bg-gradient-to-br from-green-500 to-green-600">
+                    {% if court.image %}
+                    <img src="{{ court.image.url }}" alt="{{ court.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="{{ court.name }}" class="w-full h-full object-cover">
+                    {% endif %}
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-green-500 text-white rounded-full text-sm font-semibold">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Còn trống
+                        </span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-3 py-1 bg-white bg-opacity-90 text-gray-800 rounded-full text-sm font-semibold">
+                            {% if 'VIP' in court.name %}VIP{% else %}Thường{% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Court Content -->
+                <div class="p-8">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-map-marker-alt text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">{{ court.name }}</h3>
+                            <p class="text-sm text-gray-600">Hà Nội</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Court Description -->
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ court.description|truncatewords:15 }}</p>
+                    
+                    <!-- Features -->
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-clock mr-2 text-gray-400"></i>
+                            <span>Mở cửa 24/7</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-wifi mr-2 text-gray-400"></i>
+                            <span>WiFi miễn phí</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-car mr-2 text-gray-400"></i>
+                            <span>Bãi đỗ xe</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Price and Action -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900">{{ court.price_per_hour|floatformat:0 }}₫</div>
+                            <div class="text-sm text-gray-600">/ giờ</div>
+                        </div>
+                        <a href="{% url 'booking:booking_create_court' court.id %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                            <i class="fas fa-calendar-check mr-1"></i>
+                            Đặt sân
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% else %}
-        <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center">
-            <i class="fas fa-table-tennis text-white text-6xl"></i>
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-inbox text-gray-400 text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Chưa có sân nào</h3>
+            <p class="text-gray-600 mb-8">Hiện tại chưa có sân cầu lông nào được đăng ký trong hệ thống.</p>
+            <a href="{% url 'home' %}" class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Về trang chủ
+            </a>
         </div>
         {% endif %}
-        
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ court.name }}</h3>
-            <p class="text-gray-600 mb-4">{{ court.description|truncatewords:20 }}</p>
-            
-            <div class="flex items-center justify-between mb-4">
-                <span class="text-2xl font-bold text-blue-600">
-                    {{ court.price_per_hour|floatformat:0 }}₫
-                    <span class="text-sm text-gray-600">/giờ</span>
-                </span>
-                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-                    <i class="fas fa-check-circle mr-1"></i> Còn trống
-                </span>
-            </div>
-            
-            <a href="{% url 'booking:booking_create_court' court.id %}" class="block w-full bg-gradient-to-r from-blue-600 to-green-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
-                <i class="fas fa-calendar-check mr-2"></i> Đặt sân
+    </div>
+</div>
+
+<!-- Quick Booking CTA -->
+<div class="bg-green-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Cần hỗ trợ đặt sân?</h2>
+        <p class="text-xl text-green-100 mb-8">Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt sân tốt nhất</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="tel:1900xxxx" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-phone mr-2"></i>
+                Gọi hotline
+            </a>
+            <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                <i class="fas fa-comments mr-2"></i>
+                Chat tư vấn
             </a>
         </div>
     </div>
-    {% empty %}
-    <div class="col-span-3 text-center py-12">
-        <i class="fas fa-inbox text-gray-400 text-6xl mb-4"></i>
-        <p class="text-gray-600 text-xl">Chưa có sân nào</p>
-    </div>
-    {% endfor %}
 </div>
 {% endblock %}

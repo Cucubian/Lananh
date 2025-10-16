@@ -1,72 +1,199 @@
 {% extends 'base.html' %}
 
-{% block title %}Quản lý người dùng{% endblock %}
+{% block title %}Quản lý người dùng - CourtMaster{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">
-        <i class="fas fa-users text-blue-600 mr-2"></i> Quản lý người dùng
-    </h2>
-    
-    <!-- Search & Filters -->
-    <form method="get" class="flex flex-wrap gap-4 mb-4">
-        <input type="text" name="search" placeholder="Tìm kiếm..." value="{{ request.GET.search }}" 
-            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-        
-        <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            <option value="">Tất cả vai trò</option>
-            <option value="customer" {% if request.GET.role == 'customer' %}selected{% endif %}>Khách hàng</option>
-            <option value="owner" {% if request.GET.role == 'owner' %}selected{% endif %}>Chủ sân</option>
-            <option value="staff" {% if request.GET.role == 'staff' %}selected{% endif %}>Nhân viên</option>
-        </select>
-        
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-            <i class="fas fa-search mr-2"></i> Tìm kiếm
-        </button>
-    </form>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-users mr-2"></i>
+                Quản lý
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Quản lý người dùng</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Quản lý tài khoản và thông tin của tất cả người dùng</p>
+        </div>
+    </div>
 </div>
 
-<div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-    <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gradient-to-r from-blue-600 to-green-600 text-white">
-                <tr>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">ID</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Họ tên</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Username</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Email</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Số ĐT</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Vai trò</th>
-                    <th class="px-4 py-3 text-left text-sm font-semibold">Ngày tạo</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% for user in users %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3">#{{ user.pk }}</td>
-                    <td class="px-4 py-3 font-semibold">{{ user.full_name }}</td>
-                    <td class="px-4 py-3">{{ user.username }}</td>
-                    <td class="px-4 py-3">{{ user.email }}</td>
-                    <td class="px-4 py-3">{{ user.phone|default:"-" }}</td>
-                    <td class="px-4 py-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold
-                            {% if user.role == 'customer' %}bg-blue-100 text-blue-800
-                            {% elif user.role == 'owner' %}bg-purple-100 text-purple-800
-                            {% else %}bg-green-100 text-green-800{% endif %}">
-                            {{ user.get_role_display }}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3">{{ user.date_joined|date:"d/m/Y" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="7" class="px-4 py-8 text-center text-gray-600">
-                        Không tìm thấy người dùng
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<!-- Main Content -->
+<div class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Tổng người dùng</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ users.count }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-user-friends text-green-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Khách hàng</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ users|length }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-user-tie text-purple-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Chủ sân</p>
+                        <p class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-user-cog text-orange-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Nhân viên</p>
+                        <p class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-search text-green-600 mr-2"></i> Tìm kiếm & Lọc
+            </h3>
+            <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tìm kiếm</label>
+                    <input type="text" name="search" placeholder="Tên, email, số điện thoại..." value="{{ request.GET.search }}" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Vai trò</label>
+                    <select name="role" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="">Tất cả vai trò</option>
+                        <option value="admin" {% if request.GET.role == 'admin' %}selected{% endif %}>Admin</option>
+                        <option value="customer" {% if request.GET.role == 'customer' %}selected{% endif %}>Khách hàng</option>
+                        <option value="owner" {% if request.GET.role == 'owner' %}selected{% endif %}>Chủ sân</option>
+                        <option value="staff" {% if request.GET.role == 'staff' %}selected{% endif %}>Nhân viên</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
+                    <select name="is_active" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="">Tất cả</option>
+                        <option value="true" {% if request.GET.is_active == 'true' %}selected{% endif %}>Hoạt động</option>
+                        <option value="false" {% if request.GET.is_active == 'false' %}selected{% endif %}>Không hoạt động</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition shadow-lg">
+                        <i class="fas fa-search mr-2"></i> Tìm kiếm
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Danh sách người dùng</h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Người dùng</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thông tin liên hệ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vai trò</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày tạo</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for user in users %}
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    {% if user.avatar %}
+                                        <img src="{{ user.avatar.url }}" alt="{{ user.full_name }}" class="w-10 h-10 rounded-full object-cover mr-4">
+                                    {% else %}
+                                        <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
+                                            <span class="text-white font-semibold text-sm">{{ user.full_name|first|upper }}</span>
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{ user.full_name }}</div>
+                                        <div class="text-sm text-gray-500">@{{ user.username }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ user.email }}</div>
+                                <div class="text-sm text-gray-500">{{ user.phone|default:"Chưa cập nhật" }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {% if user.is_superuser %}bg-red-100 text-red-800
+                                    {% elif user.role == 'customer' %}bg-blue-100 text-blue-800
+                                    {% elif user.role == 'owner' %}bg-purple-100 text-purple-800
+                                    {% elif user.role == 'staff' %}bg-orange-100 text-orange-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {% if user.is_superuser %}<i class="fas fa-crown mr-1"></i>
+                                    {% elif user.role == 'customer' %}<i class="fas fa-user mr-1"></i>
+                                    {% elif user.role == 'owner' %}<i class="fas fa-crown mr-1"></i>
+                                    {% elif user.role == 'staff' %}<i class="fas fa-user-tie mr-1"></i>
+                                    {% endif %}
+                                    {% if user.is_superuser %}Admin
+                                    {% elif user.role == 'customer' %}Khách hàng
+                                    {% elif user.role == 'owner' %}Chủ sân
+                                    {% elif user.role == 'staff' %}Nhân viên
+                                    {% else %}Khách hàng{% endif %}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ user.date_joined|date:"d/m/Y" }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {% if user.is_active %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                    {% if user.is_active %}<i class="fas fa-check-circle mr-1"></i>Hoạt động
+                                    {% else %}<i class="fas fa-times-circle mr-1"></i>Không hoạt động{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                <div class="text-gray-500">
+                                    <i class="fas fa-users-slash text-4xl mb-4"></i>
+                                    <p class="text-lg">Không tìm thấy người dùng nào</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

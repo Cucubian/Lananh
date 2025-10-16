@@ -21,63 +21,66 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-gradient-to-r from-blue-600 to-green-600 shadow-lg sticky top-0 z-50">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{% url 'home' %}" class="flex items-center space-x-2 text-white font-bold text-xl">
-                        <i class="fas fa-shuttlecock-badminton text-2xl"></i>
-                        <span>Badminton</span>
+                    <a href="{% url 'home' %}" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bolt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-gray-900">CourtMaster</div>
+                            <div class="text-sm text-gray-600">Đặt sân cầu lông</div>
+                        </div>
                     </a>
-                    <div class="hidden md:flex ml-10 space-x-4">
-                        <a href="{% url 'home' %}" class="text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition">
-                            <i class="fas fa-home mr-1"></i> Trang chủ
-                        </a>
-                        <a href="{% url 'booking:court_list' %}" class="text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition">
-                            <i class="fas fa-table-tennis mr-1"></i> Đặt sân
-                        </a>
-                        <a href="{% url 'services:service_list' %}" class="text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition">
-                            <i class="fas fa-shopping-cart mr-1"></i> Dịch vụ
-                        </a>
-                    </div>
                 </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'home' %}" class="text-green-600 font-medium">Trang chủ</a>
+                    <a href="{% url 'booking:court_list' %}" class="text-gray-700 hover:text-green-600 transition">Lịch sân</a>
+                    <a href="{% url 'contact' %}" class="text-gray-700 hover:text-green-600 transition">Liên hệ</a>
+                </div>
+
+                <!-- Right Side -->
                 <div class="flex items-center space-x-4">
                     {% if user.is_authenticated %}
                         {% if user.is_owner or user.is_staff_member or user.is_superuser %}
-                        <a href="{% url 'management:dashboard' %}" class="text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition">
-                            <i class="fas fa-chart-line mr-1"></i> Quản lý
+                        <a href="{% url 'management:dashboard' %}" class="text-gray-700 hover:text-green-600 transition">
+                            Dashboard
                         </a>
                         {% endif %}
-                        <div class="relative group">
-                            <button class="text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
-                                <i class="fas fa-user mr-2"></i>
+                        <div class="relative" id="user-menu">
+                            <button onclick="toggleUserMenu()" class="text-gray-700 hover:text-green-600 transition flex items-center px-3 py-2 rounded-lg hover:bg-gray-50">
                                 {{ user.full_name|default:user.username }}
-                                <i class="fas fa-chevron-down ml-2"></i>
+                                <i class="fas fa-chevron-down ml-2" id="chevron-icon"></i>
                             </button>
-                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
-                                <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-user-circle mr-2"></i> Hồ sơ
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 hidden border border-gray-200 z-50" id="user-dropdown">
+                                <a href="{% url 'accounts:profile' %}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+                                    <i class="fas fa-user mr-2"></i>Hồ sơ
                                 </a>
-                                <a href="{% url 'booking:booking_list' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-list mr-2"></i> Đơn đặt sân
+                                <a href="{% url 'booking:booking_list' %}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+                                    <i class="fas fa-calendar-check mr-2"></i>Đơn đặt sân
                                 </a>
-                                <a href="{% url 'services:service_order_list' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-shopping-bag mr-2"></i> Đơn dịch vụ
+                                <a href="{% url 'services:service_order_list' %}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+                                    <i class="fas fa-concierge-bell mr-2"></i>Đơn dịch vụ
                                 </a>
-                                <hr class="my-1">
-                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                                <hr class="my-2 border-gray-200">
+                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
                                 </a>
                             </div>
                         </div>
                     {% else %}
-                        <a href="{% url 'accounts:login' %}" class="text-white hover:bg-white/10 px-4 py-2 rounded-md text-sm font-medium transition">
-                            <i class="fas fa-sign-in-alt mr-1"></i> Đăng nhập
+                        <a href="{% url 'accounts:login' %}" class="text-gray-700 hover:text-green-600 transition">
+                            Đăng nhập
                         </a>
-                        <a href="{% url 'accounts:register' %}" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition shadow-md">
-                            <i class="fas fa-user-plus mr-1"></i> Đăng ký
+                        <a href="{% url 'booking:court_list' %}" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition">
+                            Đặt sân ngay
                         </a>
                     {% endif %}
                 </div>
@@ -100,44 +103,94 @@
     {% endif %}
 
     <!-- Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main>
         {% block content %}
         {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Column 1 - Logo -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Về chúng tôi</h3>
-                    <p class="text-gray-400">Hệ thống quản lý sân cầu lông hiện đại, tiện lợi và chuyên nghiệp.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Liên hệ</h3>
-                    <p class="text-gray-400"><i class="fas fa-phone mr-2"></i> 0123 456 789</p>
-                    <p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> info@badmintoncourt.vn</p>
-                    <p class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> Hà Nội, Việt Nam</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Theo dõi</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-facebook text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-instagram text-2xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-youtube text-2xl"></i>
-                        </a>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bolt text-white text-xl"></i>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900">CourtMaster</div>
                     </div>
+                    <p class="text-gray-600">Hệ thống đặt sân cầu lông hàng đầu Việt Nam</p>
+                </div>
+
+                <!-- Column 2 - Services -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Dịch vụ</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'booking:court_list' %}" class="text-gray-600 hover:text-green-600 transition">Đặt sân</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Giải đấu</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Huấn luyện</a></li>
+                        <li><a href="{% url 'services:service_list' %}" class="text-gray-600 hover:text-green-600 transition">Cửa hàng</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 - Company -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Công ty</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Tin tức</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Tuyển dụng</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-600 hover:text-green-600 transition">Liên hệ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 - Contact -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-600">Hotline: 1900 xxxx</li>
+                        <li class="text-gray-600">Email: info@courtmaster.vn</li>
+                        <li class="text-gray-600">Địa chỉ: Hà Nội, Việt Nam</li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 BadmintonCourt. All rights reserved.</p>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-300 mt-12 pt-8 text-center">
+                <p class="text-gray-600">©2025 CourtMaster. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown');
+            const chevron = document.getElementById('chevron-icon');
+            
+            if (dropdown.classList.contains('hidden')) {
+                dropdown.classList.remove('hidden');
+                chevron.classList.remove('fa-chevron-down');
+                chevron.classList.add('fa-chevron-up');
+            } else {
+                dropdown.classList.add('hidden');
+                chevron.classList.remove('fa-chevron-up');
+                chevron.classList.add('fa-chevron-down');
+            }
+        }
+
+        // Đóng menu khi click ra ngoài
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const dropdown = document.getElementById('user-dropdown');
+            const chevron = document.getElementById('chevron-icon');
+            
+            if (userMenu && !userMenu.contains(event.target)) {
+                dropdown.classList.add('hidden');
+                chevron.classList.remove('fa-chevron-up');
+                chevron.classList.add('fa-chevron-down');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+CourtMaster - Xác nhận thanh toán
+
+Chào {{ user.full_name|default:user.username }},
+
+Chúng tôi xác nhận đã nhận được thanh toán của bạn. Đơn đặt sân đã được kích hoạt và sẵn sàng sử dụng.
+
+CHI TIẾT GIAO DỊCH:
+Mã giao dịch: {{ payment.id|slice:":8"|upper }}
+Phương thức: {{ payment.get_payment_method_display }}
+Số tiền: {{ payment.amount|floatformat:0 }}₫
+Thời gian: {{ payment.paid_at|date:"d/m/Y H:i" }}
+
+{% if booking %}
+THÔNG TIN ĐẶT SÂN:
+Sân: {{ booking.court.name }}
+Ngày: {{ booking.date|date:"d/m/Y" }}
+Khung giờ: {{ booking.start_time|time:"H:i" }} - {{ booking.end_time|time:"H:i" }}
+Thời lượng: {{ booking.total_hours }} giờ
+Trạng thái: {{ booking.get_status_display }}
+
+Xem đơn đặt sân: {{ site_url }}{% url 'booking:booking_detail' booking.pk %}
+{% endif %}
+
+Lưu ý: Vui lòng đến sân đúng giờ. Nếu cần thay đổi, hãy liên hệ trước 2 giờ.
+
+Cảm ơn bạn đã tin tưởng CourtMaster
+
+Email: info@courtmaster.vn | Hotline: 1900 xxxx
+Website: {{ site_url }}

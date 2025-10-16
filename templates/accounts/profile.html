@@ -1,76 +1,222 @@
 {% extends 'base.html' %}
 
-{% block title %}Hồ sơ cá nhân{% endblock %}
+{% block title %}Hồ sơ cá nhân - CourtMaster{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-blue-600 to-green-600 px-8 py-6">
-            <h2 class="text-3xl font-bold text-white">
-                <i class="fas fa-user-circle mr-2"></i> Hồ sơ cá nhân
-            </h2>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-green-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-user-circle mr-2"></i>
+                Hồ sơ cá nhân
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Thông tin tài khoản</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Quản lý thông tin cá nhân và theo dõi hoạt động của bạn</p>
         </div>
-        
-        <!-- Profile Info -->
-        <div class="p-8">
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-8">
-                <div class="flex-shrink-0">
-                    {% if user.avatar %}
-                    <img src="{{ user.avatar.url }}" alt="{{ user.full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-lg">
-                    {% else %}
-                    <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-5xl font-bold shadow-lg">
-                        {{ user.full_name|first|upper }}
-                    </div>
-                    {% endif %}
-                </div>
-                
-                <div class="flex-grow">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ user.full_name }}</h3>
-                    <p class="text-gray-600 mb-4">
-                        <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            <i class="fas fa-user-tag mr-1"></i> {{ user.get_role_display }}
-                        </span>
-                    </p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-envelope text-blue-600 mr-3 w-6"></i>
-                            <span>{{ user.email }}</span>
-                        </div>
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-user text-blue-600 mr-3 w-6"></i>
-                            <span>{{ user.username }}</span>
-                        </div>
-                        {% if user.phone %}
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-phone text-blue-600 mr-3 w-6"></i>
-                            <span>{{ user.phone }}</span>
+    </div>
+</div>
+
+<!-- Profile Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <!-- Profile Header -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 px-8 py-8">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <!-- Avatar -->
+                    <div class="flex-shrink-0">
+                        {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="{{ user.full_name }}" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
+                        {% else %}
+                        <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center text-green-600 text-3xl font-bold shadow-lg">
+                            {{ user.full_name|first|upper }}
                         </div>
                         {% endif %}
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-calendar text-blue-600 mr-3 w-6"></i>
-                            <span>Tham gia: {{ user.date_joined|date:"d/m/Y" }}</span>
-                        </div>
                     </div>
                     
-                    {% if user.address %}
-                    <div class="mt-4 flex items-start text-gray-700">
-                        <i class="fas fa-map-marker-alt text-blue-600 mr-3 w-6 mt-1"></i>
-                        <span>{{ user.address }}</span>
+                    <!-- User Info -->
+                    <div class="text-center md:text-left text-white">
+                        <h2 class="text-3xl font-bold mb-2">{{ user.full_name }}</h2>
+                        <div class="flex items-center justify-center md:justify-start gap-4">
+                            <span class="inline-block bg-white bg-opacity-20 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="fas fa-user-tag mr-2"></i>
+                                {{ user.get_role_display }}
+                            </span>
+                            <span class="text-green-100">
+                                <i class="fas fa-calendar mr-2"></i>
+                                Tham gia: {{ user.date_joined|date:"d/m/Y" }}
+                            </span>
+                        </div>
                     </div>
-                    {% endif %}
                 </div>
             </div>
             
-            <div class="flex gap-4">
-                <a href="{% url 'accounts:profile_update' %}" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transition shadow-lg">
-                    <i class="fas fa-edit mr-2"></i> Chỉnh sửa hồ sơ
-                </a>
-                <a href="{% url 'booking:booking_list' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
-                    <i class="fas fa-list mr-2"></i> Xem đơn đặt sân
-                </a>
+            <!-- Profile Content -->
+            <div class="p-8">
+                <!-- Contact Information -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-address-card text-green-600 mr-3"></i>
+                        Thông tin liên hệ
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 rounded-2xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Email</h4>
+                                    <p class="text-gray-600">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-2xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-user text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Tên đăng nhập</h4>
+                                    <p class="text-gray-600">{{ user.username }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if user.phone %}
+                        <div class="bg-gray-50 rounded-2xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Số điện thoại</h4>
+                                    <p class="text-gray-600">{{ user.phone }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if user.address %}
+                        <div class="bg-gray-50 rounded-2xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Địa chỉ</h4>
+                                    <p class="text-gray-600">{{ user.address }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-bolt text-green-600 mr-3"></i>
+                        Thao tác nhanh
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="{% url 'accounts:profile_update' %}" class="flex items-center p-6 bg-green-50 rounded-2xl hover:bg-green-100 transition group">
+                            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4 group-hover:bg-green-600 transition">
+                                <i class="fas fa-edit text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Chỉnh sửa hồ sơ</h4>
+                                <p class="text-sm text-gray-600">Cập nhật thông tin cá nhân</p>
+                            </div>
+                        </a>
+                        
+                        <a href="{% url 'booking:booking_list' %}" class="flex items-center p-6 bg-blue-50 rounded-2xl hover:bg-blue-100 transition group">
+                            <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-600 transition">
+                                <i class="fas fa-list text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Đơn đặt sân</h4>
+                                <p class="text-sm text-gray-600">Xem lịch sử đặt sân</p>
+                            </div>
+                        </a>
+                        
+                        <a href="{% url 'services:service_order_list' %}" class="flex items-center p-6 bg-purple-50 rounded-2xl hover:bg-purple-100 transition group">
+                            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mr-4 group-hover:bg-purple-600 transition">
+                                <i class="fas fa-shopping-bag text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Đơn dịch vụ</h4>
+                                <p class="text-sm text-gray-600">Xem lịch sử mua hàng</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                    <a href="{% url 'accounts:profile_update' %}" class="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-lg font-semibold transition shadow-lg text-center">
+                        <i class="fas fa-edit mr-2"></i>
+                        Chỉnh sửa hồ sơ
+                    </a>
+                    <a href="{% url 'booking:court_list' %}" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold transition shadow-lg text-center">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        Đặt sân mới
+                    </a>
+                    <a href="{% url 'home' %}" class="flex-1 bg-gray-200 text-gray-800 px-6 py-4 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
+                        <i class="fas fa-home mr-2"></i>
+                        Về trang chủ
+                    </a>
+                </div>
             </div>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">12</h3>
+                <p class="text-gray-600">Lần đặt sân</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clock text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">48</h3>
+                <p class="text-gray-600">Giờ chơi</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-star text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">4.8</h3>
+                <p class="text-gray-600">Đánh giá trung bình</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-green-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Sẵn sàng chơi cầu lông?</h2>
+        <p class="text-xl text-green-100 mb-8">Đặt sân ngay để có trải nghiệm chơi cầu lông tuyệt vời</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'booking:court_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-semibold rounded-lg transition">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Đặt sân ngay
+            </a>
+            <a href="{% url 'services:service_list' %}" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-600 font-semibold rounded-lg transition">
+                <i class="fas fa-shopping-cart mr-2"></i>
+                Xem dịch vụ
+            </a>
         </div>
     </div>
 </div>
