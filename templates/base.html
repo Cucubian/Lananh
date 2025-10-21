@@ -44,6 +44,8 @@
                     <a href="{% url 'home' %}" class="text-green-600 font-medium">Trang chủ</a>
                     <a href="{% url 'booking:court_list' %}" class="text-gray-700 hover:text-green-600 transition">Lịch sân</a>
                     <a href="{% url 'contact' %}" class="text-gray-700 hover:text-green-600 transition">Liên hệ</a>
+                    <a href="{% url 'about' %}" class="text-gray-700 hover:text-green-600 transition">Về chúng tôi</a>
+                    
                 </div>
 
                 <!-- Right Side -->
@@ -138,7 +140,7 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Công ty</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Về chúng tôi</a></li>
+                        <li><a href="{% url 'about' %}" class="text-gray-600 hover:text-green-600 transition">Về chúng tôi</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Tin tức</a></li>
                         <li><a href="#" class="text-gray-600 hover:text-green-600 transition">Tuyển dụng</a></li>
                         <li><a href="{% url 'contact' %}" class="text-gray-600 hover:text-green-600 transition">Liên hệ</a></li>

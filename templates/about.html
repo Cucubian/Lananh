@@ -1,0 +1,599 @@
+{% extends 'base.html' %}
+
+{% block title %}Về chúng tôi - CourtMaster{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Parallax Effect -->
+<div class="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 py-32">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="mb-8">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+                <i class="fas fa-star text-yellow-400 mr-2"></i>
+                <span class="text-white font-medium">Hệ thống đặt sân #1 Việt Nam</span>
+            </div>
+        </div>
+        <h1 class="text-6xl md:text-7xl font-black text-white mb-8 leading-tight">
+            Câu chuyện của
+            <span class="bg-gradient-to-r from-yellow-400 via-green-400 to-cyan-400 bg-clip-text text-transparent">
+                CourtMaster
+            </span>
+        </h1>
+        <p class="text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-12">
+            Từ một buổi chiều mưa ở Hà Nội đến hành trình cách mạng hóa 
+            <span class="text-yellow-400 font-semibold">cộng đồng cầu lông Việt Nam</span>
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#story" class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-green-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                <i class="fas fa-play mr-2"></i>Khám phá câu chuyện
+            </a>
+            <a href="{% url 'booking:court_list' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-emerald-900 transition-all duration-300">
+                <i class="fas fa-calendar-check mr-2"></i>Đặt sân ngay
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- The Story Begins -->
+<div id="story" class="py-24 bg-gradient-to-br from-gray-50 to-green-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-green-100 to-teal-100 border border-green-200 mb-8">
+                <i class="fas fa-heart text-green-600 mr-3 text-xl"></i>
+                <span class="text-green-800 font-semibold">Câu chuyện bắt đầu</span>
+            </div>
+            <h2 class="text-5xl font-black text-gray-900 mb-6">
+                Một buổi chiều mưa ở 
+                <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">Hà Nội</span>
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8">
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-quote-left text-white text-sm"></i>
+                    </div>
+                    <blockquote class="text-2xl font-medium text-gray-800 leading-relaxed pl-8">
+                        "Tôi nhớ rõ cái ngày đó - tháng 3/2023, trời mưa tầm tã. 
+                        Tôi và nhóm bạn đã đứng chờ 2 tiếng đồng hồ trước sân cầu lông 
+                        chỉ để được đặt một khung giờ chơi..."
+                    </blockquote>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-xl border-l-4 border-gradient-to-b from-green-500 to-teal-500">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">- Anh Minh, Founder CourtMaster</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        "Đó chính là khoảnh khắc tôi nhận ra: Việt Nam cần một hệ thống đặt sân 
+                        thông minh, không phải để thay thế con người, mà để kết nối những người 
+                        yêu cầu lông với nhau một cách dễ dàng hơn."
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-gradient-to-br from-green-600 via-teal-600 to-cyan-500 rounded-3xl p-8 text-white transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-umbrella text-4xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4">Tháng 3/2023</h4>
+                        <p class="text-lg opacity-90">Buổi chiều mưa định mệnh</p>
+                        <div class="mt-6 space-y-3">
+                            <div class="flex items-center justify-center space-x-3">
+                                <i class="fas fa-clock text-yellow-300"></i>
+                                <span>2 giờ chờ đợi</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-3">
+                                <i class="fas fa-users text-yellow-300"></i>
+                                <span>5 người bạn</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-3">
+                                <i class="fas fa-lightbulb text-yellow-300"></i>
+                                <span>1 ý tưởng lớn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Journey -->
+<div class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-teal-100 to-cyan-100 border border-teal-200 mb-8">
+                <i class="fas fa-road text-teal-600 mr-3 text-xl"></i>
+                <span class="text-teal-800 font-semibold">Hành trình phát triển</span>
+            </div>
+            <h2 class="text-5xl font-black text-gray-900 mb-6">
+                Từ ý tưởng đến 
+                <span class="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">hiện thực</span>
+            </h2>
+        </div>
+        
+        <!-- Timeline -->
+        <div class="relative">
+            <!-- Timeline Line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-green-500 via-teal-500 to-cyan-500 rounded-full"></div>
+            
+            <!-- Timeline Items -->
+            <div class="space-y-24">
+                <!-- Phase 1 -->
+                <div class="relative flex items-center">
+                    <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl p-8 text-white shadow-2xl">
+                            <div class="flex items-center justify-end mb-4">
+                                <span class="text-2xl font-bold">Tháng 4/2023</span>
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center ml-4">
+                                    <i class="fas fa-lightbulb text-xl"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Ý tưởng nảy sinh</h3>
+                            <p class="text-lg opacity-90">
+                                Sau buổi chiều mưa, anh Minh bắt đầu nghiên cứu thị trường. 
+                                Phát hiện ra rằng 90% sân cầu lông ở Hà Nội vẫn sử dụng 
+                                phương thức đặt sân thủ công, gây khó khăn cho người chơi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-green-500 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8"></div>
+                </div>
+                
+                <!-- Phase 2 -->
+                <div class="relative flex items-center">
+                    <div class="w-1/2 pr-8"></div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-teal-500 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8">
+                        <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 text-white shadow-2xl">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-code text-xl"></i>
+                                </div>
+                                <span class="text-2xl font-bold">Tháng 6/2023</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Bắt đầu phát triển</h3>
+                            <p class="text-lg opacity-90">
+                                Thành lập team 3 người: Minh (Backend), Linh (Frontend), 
+                                và Hùng (UI/UX). Bắt đầu xây dựng MVP với Django và 
+                                TailwindCSS. Làm việc 16 tiếng/ngày trong 3 tháng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Phase 3 -->
+                <div class="relative flex items-center">
+                    <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl p-8 text-white shadow-2xl">
+                            <div class="flex items-center justify-end mb-4">
+                                <span class="text-2xl font-bold">Tháng 9/2023</span>
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center ml-4">
+                                    <i class="fas fa-rocket text-xl"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Ra mắt beta</h3>
+                            <p class="text-lg opacity-90">
+                                Launch phiên bản beta với 5 sân cầu lông ở Hà Nội. 
+                                Trong 2 tuần đầu, có 200+ người đăng ký và 50+ lượt đặt sân thành công. 
+                                Nhận được phản hồi tích cực từ cộng đồng.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-cyan-500 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8"></div>
+                </div>
+                
+                <!-- Phase 4 -->
+                <div class="relative flex items-center">
+                    <div class="w-1/2 pr-8"></div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8">
+                        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl p-8 text-white shadow-2xl">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-trophy text-xl"></i>
+                                </div>
+                                <span class="text-2xl font-bold">Hiện tại</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Thành công vang dội</h3>
+                            <p class="text-lg opacity-90">
+                                Mở rộng ra 50+ sân cầu lông trên toàn Hà Nội. Phục vụ 1000+ khách hàng 
+                                với 5000+ lượt đặt sân mỗi tháng. Được vinh danh là "Startup tiềm năng nhất 
+                                trong lĩnh vực thể thao 2024".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Our Mission & Values -->
+<div class="py-24 bg-gradient-to-br from-green-50 via-teal-50 to-cyan-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-green-100 to-teal-100 border border-green-200 mb-8">
+                <i class="fas fa-compass text-green-600 mr-3 text-xl"></i>
+                <span class="text-green-800 font-semibold">Sứ mệnh & Giá trị</span>
+            </div>
+            <h2 class="text-5xl font-black text-gray-900 mb-6">
+                Điều gì thúc đẩy 
+                <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">chúng tôi</span>
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+            <div class="space-y-8">
+                <div class="bg-white p-8 rounded-3xl shadow-2xl border-l-8 border-gradient-to-b from-green-500 to-teal-500">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6">Sứ mệnh của chúng tôi</h3>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        "Chúng tôi tin rằng mỗi người đều xứng đáng có cơ hội chơi cầu lông một cách 
+                        dễ dàng và thuận tiện. CourtMaster không chỉ là một ứng dụng đặt sân, mà là 
+                        cầu nối kết nối những con người yêu thể thao."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-quote-left text-white"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">- Anh Minh, CEO & Founder</p>
+                            <p class="text-gray-600">CourtMaster</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-white transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-heart text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Đam mê</h4>
+                    <p class="text-sm opacity-90">Yêu cầu lông từ trái tim</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-teal-500 to-cyan-500 rounded-2xl p-6 text-white transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Tin cậy</h4>
+                    <p class="text-sm opacity-90">Minh bạch & An toàn</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl p-6 text-white transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-star text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Chất lượng</h4>
+                    <p class="text-sm opacity-90">Tốt nhất cho khách hàng</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl p-6 text-white transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Cộng đồng</h4>
+                    <p class="text-sm opacity-90">Kết nối mọi người</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Amazing Features -->
+<div class="py-24 bg-gradient-to-br from-gray-50 to-green-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-green-100 to-teal-100 border border-green-200 mb-8">
+                <i class="fas fa-magic text-green-600 mr-3 text-xl"></i>
+                <span class="text-green-800 font-semibold">Tính năng tuyệt vời</span>
+            </div>
+            <h2 class="text-5xl font-black text-gray-900 mb-6">
+                Những gì làm nên 
+                <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">CourtMaster</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Mỗi tính năng đều được thiết kế dựa trên trải nghiệm thực tế của người chơi cầu lông
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-calendar-check text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Đặt sân siêu nhanh</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Chỉ cần 3 bước: Chọn sân → Chọn giờ → Xác nhận. 
+                    Không cần gọi điện, không cần chờ đợi!
+                </p>
+                <div class="flex items-center text-teal-600 font-semibold">
+                    <span>Khám phá ngay</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+            
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-credit-card text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Thanh toán thông minh</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Hỗ trợ mọi phương thức thanh toán. Upload ảnh chứng từ, 
+                    hệ thống tự động xác minh và xác nhận.
+                </p>
+                <div class="flex items-center text-green-600 font-semibold">
+                    <span>Tìm hiểu thêm</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+            
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-concierge-bell text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Dịch vụ toàn diện</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Nước uống, thuê vợt, khăn lau... Tất cả đều có sẵn. 
+                    Đặt một lần, chơi thả ga!
+                </p>
+                <div class="flex items-center text-teal-600 font-semibold">
+                    <span>Xem dịch vụ</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+            
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-chart-line text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Quản lý thông minh</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Dashboard trực quan với báo cáo doanh thu chi tiết. 
+                    Quản lý sân chưa bao giờ dễ dàng đến thế!
+                </p>
+                <div class="flex items-center text-yellow-600 font-semibold">
+                    <span>Xem dashboard</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+            
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-user-shield text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Bảo mật tuyệt đối</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Mã hóa end-to-end, xác thực 2 lớp. Thông tin cá nhân 
+                    của bạn được bảo vệ tối đa.
+                </p>
+                <div class="flex items-center text-red-600 font-semibold">
+                    <span>Bảo mật cao</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+            
+            <div class="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Mọi lúc mọi nơi</h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Responsive hoàn hảo trên mọi thiết bị. Đặt sân ngay cả khi 
+                    đang trên xe bus!
+                </p>
+                <div class="flex items-center text-blue-600 font-semibold">
+                    <span>Thử ngay</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Our Amazing Team -->
+<div class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-green-100 to-teal-100 border border-green-200 mb-8">
+                <i class="fas fa-users text-green-600 mr-3 text-xl"></i>
+                <span class="text-green-800 font-semibold">Đội ngũ tài năng</span>
+            </div>
+            <h2 class="text-5xl font-black text-gray-900 mb-6">
+                Những con người đứng sau 
+                <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">CourtMaster</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Từ những developer trẻ trung đến những chuyên gia dày dạn kinh nghiệm
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Minh - CEO & Founder -->
+            <div class="group bg-gradient-to-br from-green-500 to-teal-600 rounded-3xl p-8 text-white transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-crown text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Anh Minh</h3>
+                    <p class="text-green-200 mb-4">CEO & Founder</p>
+                    <p class="text-sm opacity-90 mb-6">
+                        "Từ buổi chiều mưa đó, tôi quyết tâm thay đổi cách người Việt đặt sân cầu lông. 
+                        Đam mê cầu lông từ nhỏ, yêu công nghệ từ đại học."
+                    </p>
+                    <div class="flex justify-center space-x-4">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-linkedin text-sm"></i>
+                        </div>
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Linh - CTO -->
+            <div class="group bg-gradient-to-br from-teal-500 to-cyan-600 rounded-3xl p-8 text-white transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-code text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Chị Linh</h3>
+                    <p class="text-teal-200 mb-4">CTO & Lead Developer</p>
+                    <p class="text-sm opacity-90 mb-6">
+                        "Tôi yêu việc tạo ra những sản phẩm có ý nghĩa. CourtMaster giúp kết nối 
+                        mọi người thông qua thể thao - đó là điều tuyệt vời nhất!"
+                    </p>
+                    <div class="flex justify-center space-x-4">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-github text-sm"></i>
+                        </div>
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-linkedin text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hùng - UI/UX Designer -->
+            <div class="group bg-gradient-to-br from-cyan-500 to-blue-600 rounded-3xl p-8 text-white transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-paint-brush text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Anh Hùng</h3>
+                    <p class="text-cyan-200 mb-4">UI/UX Designer</p>
+                    <p class="text-sm opacity-90 mb-6">
+                        "Mỗi pixel đều có ý nghĩa. Tôi thiết kế không chỉ để đẹp, mà để 
+                        người dùng cảm thấy thích thú khi sử dụng."
+                    </p>
+                    <div class="flex justify-center space-x-4">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-dribbble text-sm"></i>
+                        </div>
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fab fa-behance text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team Stats -->
+        <div class="mt-20 bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-12 text-white">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold mb-4">Đội ngũ của chúng tôi</h3>
+                <p class="text-gray-300">Những con số ấn tượng về team CourtMaster</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-yellow-400 mb-2">15+</div>
+                    <div class="text-gray-300">Thành viên</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-green-400 mb-2">5+</div>
+                    <div class="text-gray-300">Năm kinh nghiệm TB</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">24/7</div>
+                    <div class="text-gray-300">Hỗ trợ khách hàng</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">100%</div>
+                    <div class="text-gray-300">Đam mê cầu lông</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Final CTA -->
+<div class="py-24 bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-96 h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute top-20 right-10 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div class="absolute -bottom-10 left-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="mb-8">
+            <div class="inline-flex items-center px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
+                <i class="fas fa-rocket text-yellow-400 mr-3 text-xl"></i>
+                <span class="text-white font-semibold">Sẵn sàng bắt đầu?</span>
+            </div>
+        </div>
+        
+        <h2 class="text-6xl md:text-7xl font-black text-white mb-8 leading-tight">
+            Tham gia cùng 
+            <span class="bg-gradient-to-r from-yellow-400 via-green-400 to-cyan-400 bg-clip-text text-transparent">
+                1000+ người
+            </span>
+        </h2>
+        
+        <p class="text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-12">
+            Đang sử dụng CourtMaster mỗi ngày để đặt sân, kết nối và tận hưởng 
+            <span class="text-yellow-400 font-semibold">niềm đam mê cầu lông</span>
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <a href="{% url 'booking:court_list' %}" class="group bg-gradient-to-r from-green-500 to-teal-600 text-white px-10 py-5 rounded-full font-bold text-xl hover:from-green-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                <i class="fas fa-calendar-check mr-3 group-hover:rotate-12 transition-transform"></i>Đặt sân ngay
+            </a>
+            <a href="{% url 'contact' %}" class="group border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-emerald-900 transition-all duration-300 backdrop-blur-sm">
+                <i class="fas fa-envelope mr-3 group-hover:scale-110 transition-transform"></i>Liên hệ chúng tôi
+            </a>
+        </div>
+        
+        <!-- Final Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div class="text-center group">
+                <div class="text-5xl font-black text-yellow-400 mb-3 group-hover:scale-110 transition-transform duration-300">1000+</div>
+                <div class="text-gray-300 text-lg font-semibold">Khách hàng</div>
+                <div class="text-gray-400 text-sm">Tin tưởng sử dụng</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="text-5xl font-black text-green-400 mb-3 group-hover:scale-110 transition-transform duration-300">5000+</div>
+                <div class="text-gray-300 text-lg font-semibold">Lượt đặt sân</div>
+                <div class="text-gray-400 text-sm">Mỗi tháng</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="text-5xl font-black text-blue-400 mb-3 group-hover:scale-110 transition-transform duration-300">50+</div>
+                <div class="text-gray-300 text-lg font-semibold">Sân cầu lông</div>
+                <div class="text-gray-400 text-sm">Được quản lý</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="text-5xl font-black text-purple-400 mb-3 group-hover:scale-110 transition-transform duration-300">99%</div>
+                <div class="text-gray-300 text-lg font-semibold">Hài lòng</div>
+                <div class="text-gray-400 text-sm">Tỷ lệ khách hàng</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for animations -->
+<style>
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+</style>
+{% endblock %}
